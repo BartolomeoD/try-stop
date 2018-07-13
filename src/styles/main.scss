@@ -1,0 +1,17 @@
+.field {
+    width: 800px;
+    height: 800px;
+    .row {
+        width: 100%;
+        display: flex;
+        .cell {
+            width: 10%;
+            height: 80px;
+            background: #f4f4f4;
+            &.iscontains {
+                background: black;
+            }
+            
+        }
+    }
+}
