@@ -14,9 +14,9 @@ class Field {
     randomize() {
         for (let y = 0; y < this.size; y++) {
             for (let x = 0; x < this.size; x++) {
-                let r = Random.next(0, 10);
+                let r = Random.next(0, 20);
                 let isWall = 0;
-                if (r > 7) {
+                if (r > 13) {
                     isWall = 1;
                 }
                 this.cells[y][x] = isWall;
@@ -32,7 +32,7 @@ class Field {
             for (let x = 0; x < this.size; x++) {
                 let classesName = 'cell';
                 if (this.cells[y][x] == 1)
-                    classesName += ' iscontains';
+                    classesName += ' wall';
                 let cell = $('<div/>', {
                     class: classesName,
                     "data-position-x": x,
@@ -51,7 +51,7 @@ class Field {
                 currentCell.attr("class", "cell");
                 switch (this.cells[y][x]) {
                     case 1:
-                        currentCell.addClass('is-contains');
+                        currentCell.addClass('wall');
                         break;
                     case 2:
                         currentCell.addClass('path');
@@ -66,7 +66,6 @@ class Field {
         }
     }
     addPath(path) {
-        console.log(path);
         for (let coords of path) {
             this.cells[coords.y][coords.x] = 2;
         }

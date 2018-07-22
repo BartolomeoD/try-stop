@@ -1,21 +1,16 @@
 import BinaryTreeNode from "./BinaryTreeNode";
-
-class BinaryTree<T> {
-    public firstItem: BinaryTreeNode<T>;
-    private comparableValue: (T: T) => number;
-
-    public constructor(argument: T, func: (T: T) => number) {
+class BinaryTree {
+    constructor(argument, func) {
         this.comparableValue = func;
-        this.firstItem = new BinaryTreeNode<T>(argument, null, this.comparableValue(argument));
+        this.firstItem = new BinaryTreeNode(argument, null, this.comparableValue(argument));
     }
-
-    public add(argument: T) {
-        let parentNode: BinaryTreeNode<T> = this.firstItem;
+    add(argument) {
+        let parentNode = this.firstItem;
         let argumentComparableValue = this.comparableValue(argument);
         while (true) {
             if (parentNode.getKey() > argumentComparableValue) {
                 if (parentNode.getLeft() == null) {
-                    parentNode.setLeft(new BinaryTreeNode<T>(argument, parentNode, argumentComparableValue));
+                    parentNode.setLeft(new BinaryTreeNode(argument, parentNode, argumentComparableValue));
                     break;
                 }
                 else {
@@ -24,30 +19,28 @@ class BinaryTree<T> {
             }
             else if (parentNode.getKey() < argumentComparableValue) {
                 if (parentNode.getRight() == null) {
-                    parentNode.setRight(new BinaryTreeNode<T>(argument, parentNode, argumentComparableValue));
+                    parentNode.setRight(new BinaryTreeNode(argument, parentNode, argumentComparableValue));
                     break;
                 }
                 else {
                     parentNode = parentNode.getRight();
                 }
-            } else {
+            }
+            else {
                 parentNode.addValue(argument);
                 break;
             }
         }
     }
-
-    public minimum(): BinaryTreeNode<T> {
+    minimum() {
         return this.minimumOf(this.firstItem);
     }
-
-    public minimumOf(node: BinaryTreeNode<T>): BinaryTreeNode<T> {
+    minimumOf(node) {
         if (node.getLeft() == null)
             return node;
         return this.minimumOf(node.getLeft());
     }
-
-    public next(node: BinaryTreeNode<T>) {
+    next(node) {
         if (node.getRight() != null)
             return this.minimumOf(node.getRight());
         let parent = node.getParent();
@@ -57,16 +50,13 @@ class BinaryTree<T> {
         }
         return parent;
     }
-
-    public isExist(arg: T) : boolean {
+    isExist(arg) {
         return this.search(arg) != null;
     }
-
-    public search(arg: T): BinaryTreeNode<T> {
+    search(arg) {
         return this.recursiveSearch(this.firstItem, this.comparableValue(arg));
     }
-
-    private recursiveSearch(node: BinaryTreeNode<T>, key: number): BinaryTreeNode<T> {
+    recursiveSearch(node, key) {
         let nodeKey = node.getKey();
         if (node == null || nodeKey == key)
             return node;
@@ -75,20 +65,17 @@ class BinaryTree<T> {
         else
             return this.recursiveSearch(node.getRight(), key);
     }
-
-    public removeNodeElement(arg: T) {
+    removeNodeElement(arg) {
         let node = this.search(arg);
         if (node.getValue().length > 1) {
             node.removeFromValue(arg);
-            return
+            return;
         }
         this.removeNode(node);
     }
-
-    public removeNode(arg: BinaryTreeNode<T>) {
+    removeNode(arg) {
         // let argValue = arg.getValue());
         if (arg.getValue().length > 1) {
-
         }
         let parentNode = arg.getParent();
         if (arg.getLeft() == null && arg.getRight() == null) {
@@ -96,23 +83,28 @@ class BinaryTree<T> {
                 parentNode.setRight(null);
             if (parentNode.getLeft() == arg)
                 parentNode.setLeft(null);
-        } else if (arg.getLeft() == null || arg.getRight() == null) {
+        }
+        else if (arg.getLeft() == null || arg.getRight() == null) {
             if (arg.getLeft() == null) {
                 if (parentNode.getLeft() == arg) {
                     parentNode.setLeft(arg.getRight());
-                } else {
+                }
+                else {
                     parentNode.setRight(arg.getRight());
                 }
                 arg.getRight().setParent(parentNode);
-            } else {
+            }
+            else {
                 if (parentNode.getLeft() == arg) {
                     parentNode.setLeft(arg.getLeft());
-                } else {
+                }
+                else {
                     parentNode.setRight(arg.getLeft());
                 }
                 arg.getLeft().setParent(parentNode);
             }
-        } else {
+        }
+        else {
             let successor = this.next(arg);
             arg.setValue(successor.getValue());
             arg.setKey(successor.getKey());
@@ -121,24 +113,23 @@ class BinaryTree<T> {
                 if (successor.getRight() != null) {
                     successor.getRight().setParent(successor.getParent());
                 }
-            } else {
+            }
+            else {
                 successor.getParent().setRight(successor.getLeft());
                 if (successor.getLeft() != null) {
                     successor.getRight().setParent(successor.getParent());
                 }
             }
         }
-
     }
-
-    public print() {
-        let nodesArray: BinaryTreeNode<T>[] = [];
+    print() {
+        let nodesArray = [];
         nodesArray.push(this.firstItem);
-        let consoleRow: string = "";
+        let consoleRow = "";
         while (nodesArray.length > 0) {
             consoleRow = "";
-            let newNodesArray: BinaryTreeNode<T>[] = [];
-            for (let i: number = 0; i < nodesArray.length; i++) {
+            let newNodesArray = [];
+            for (let i = 0; i < nodesArray.length; i++) {
                 consoleRow += nodesArray[i].getKey().toString();
                 consoleRow += " [";
                 for (let value of nodesArray[i].getValue()) {
@@ -156,5 +147,5 @@ class BinaryTree<T> {
         }
     }
 }
-
 export default BinaryTree;
+//# sourceMappingURL=BinaryTree.js.map
