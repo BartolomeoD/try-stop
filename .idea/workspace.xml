@@ -2,31 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c072376-b2da-40a2-81af-8ff54ea5aca6" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Engine/BinaryTree.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Engine/BinaryTreeNode.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Engine/Game.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Engine/MapCoordinates.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Engine/PathNode.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/EntryPoint.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Environment/Field.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Helpers/Random.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Helpers/Sleep.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/Helpers/StopWatch.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/scripts/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/scripts/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/scripts/script.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/scripts/script.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/styles/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/styles/main.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/styles/main.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/engine/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/field.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/helpers/random.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,15 +14,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EntryPoint.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EntryPoint.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/EntryPoint.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+            <state relative-caret-position="332">
+              <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
                 <marker date="1532269466975" expanded="true" signature="0:335" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="76">
+                <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="45" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -136,6 +125,7 @@
         <option value="$PROJECT_DIR$/src/styles/main.scss" />
         <option value="$PROJECT_DIR$/src/scripts/Helpers/StopWatch.ts" />
         <option value="$PROJECT_DIR$/src/scripts/EntryPoint.ts" />
+        <option value="$PROJECT_DIR$/readme.md" />
       </list>
     </option>
   </component>
@@ -173,44 +163,6 @@
             <path>
               <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
               <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="Engine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="Environment" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="Helpers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="styles" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -263,12 +215,12 @@
       <option name="presentableId" value="Default" />
       <updated>1531929400771</updated>
       <workItem from="1531929410687" duration="29556000" />
-      <workItem from="1532192640979" duration="23194000" />
+      <workItem from="1532192640979" duration="24309000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52750000" />
+    <option name="totallyTimeSpent" value="53865000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -282,7 +234,7 @@
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="3" weight="0.21671827" />
       <window_info anchor="bottom" id="TypeScript" order="11" weight="0.32972136" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
       <window_info anchor="bottom" id="Docker" order="4" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.32972136" />
@@ -506,12 +458,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/scripts/EntryPoint.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+        <state relative-caret-position="332">
+          <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
             <marker date="1532269466975" expanded="true" signature="0:335" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="76">
+            <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="45" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
