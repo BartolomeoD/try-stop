@@ -10462,218 +10462,425 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./src/scripts/engine/game.js":
+/***/ "./src/scripts/Engine/Game.ts":
 /*!************************************!*\
-  !*** ./src/scripts/engine/game.js ***!
+  !*** ./src/scripts/Engine/Game.ts ***!
   \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Game = function () {
-    function Game(field) {
-        _classCallCheck(this, Game);
-
+__webpack_require__.r(__webpack_exports__);
+class Game {
+    constructor(field) {
         this.field = field;
-        var f = field;
     }
+    start() {
+        this.field.render();
+        setInterval(this.update.bind(this), 2000);
+    }
+    update() {
+        this.field.rerender();
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Game);
 
-    _createClass(Game, [{
-        key: "start",
-        value: function start() {
-            this.field.render();
-            setInterval(this.update.bind(this), 500);
-        }
-    }, {
-        key: "update",
-        value: function update() {
-            this.field.rerender();
-            this.field.randomize();
-        }
-    }]);
-
-    return Game;
-}();
-
-exports.default = Game;
 
 /***/ }),
 
-/***/ "./src/scripts/field.js":
-/*!******************************!*\
-  !*** ./src/scripts/field.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/scripts/Engine/MapCoordinates.ts":
+/*!**********************************************!*\
+  !*** ./src/scripts/Engine/MapCoordinates.ts ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+class MapCoordinates {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    toString() {
+        return this.x.toString() + "," + this.y.toString();
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (MapCoordinates);
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+/***/ }),
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+/***/ "./src/scripts/Engine/PathFinder.ts":
+/*!******************************************!*\
+  !*** ./src/scripts/Engine/PathFinder.ts ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _jquery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PathNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PathNode */ "./src/scripts/Engine/PathNode.ts");
+/* harmony import */ var _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
 
-var _jquery2 = _interopRequireDefault(_jquery);
 
-var _random = __webpack_require__(/*! ./helpers/random */ "./src/scripts/helpers/random.js");
+class PathFinder {
+    constructor(field, game) {
+        this.field = field;
+        this.game = game;
+    }
+    getCheckedNodes() {
+        return this.checkedNodes;
+    }
+    findPath(from, to) {
+        this.nodesToCheck = [];
+        this.checkedNodes = [];
+        let startNode = new _PathNode__WEBPACK_IMPORTED_MODULE_0__["default"](from, 0, null);
+        this.nodesToCheck.push(startNode);
+        let index = 0;
+        while (this.nodesToCheck.length > 0) {
+            let sortedNodes = this.nodesToCheck.sort((bigger, smaller) => {
+                // console.log(bigger.getHeuristicDistanceToGoal().toString() + " "
+                //     + smaller.getHeuristicDistanceToGoal().toString());
+                if (bigger.getHeuristicDistanceTo(to) > smaller.getHeuristicDistanceTo(to))
+                    return 1;
+                if (bigger.getHeuristicDistanceTo(to) < smaller.getHeuristicDistanceTo(to))
+                    return -1;
+                return 0;
+            });
+            let currentNode = sortedNodes[0];
+            // this.game.field.cells[currentNode.getCoordinates().y][currentNode.getCoordinates().x] = 3;
+            // if (index > 20) {
+            //     this.game.field.rerender();
+            //     index = 0;
+            // }
+            index++;
+            if (currentNode.getCoordinates().toString() == to.toString()) {
+                console.log(currentNode);
+                return this.getResultPath(currentNode);
+            }
+            this.nodesToCheck.splice(0, 1);
+            this.checkedNodes.push(currentNode);
+            for (let neighbourNode of this.getNeighbors(currentNode)) {
+                if (this.checkedNodes.some((value) => {
+                    // if (value.getCoordinates().toString() == neighbourNode.getCoordinates().toString()) {
+                    //     console.log("true");
+                    // }
+                    return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
+                })) {
+                    continue;
+                }
+                let processedNode = this.nodesToCheck.find((value) => {
+                    return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
+                });
+                if (processedNode == undefined)
+                    this.nodesToCheck.push(neighbourNode);
+                else {
+                    if (processedNode.getDistanceFromStart() > neighbourNode.getDistanceFromStart()) {
+                        processedNode.setCameFrom(currentNode);
+                        processedNode.setDistanceFroStart(currentNode.getDistanceFromStart());
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    getNeighbors(node) {
+        let pathNodesCoordinates = [];
+        let nodeCoordinates = node.getCoordinates();
+        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x + 1, nodeCoordinates.y));
+        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x - 1, nodeCoordinates.y));
+        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x, nodeCoordinates.y + 1));
+        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x, nodeCoordinates.y - 1));
+        let pathNodes = [];
+        for (let coords of pathNodesCoordinates) {
+            if (coords.x < 0 || coords.x >= this.field.size) {
+                continue;
+            }
+            if (coords.y < 0 || coords.y >= this.field.size) {
+                continue;
+            }
+            if (this.field.cells[coords.y][coords.x] == 1)
+                continue;
+            pathNodes.push(new _PathNode__WEBPACK_IMPORTED_MODULE_0__["default"](coords, node.getDistanceFromStart() + 1, node));
+        }
+        return pathNodes;
+    }
+    getResultPath(node) {
+        let result = [];
+        let currentNode = node;
+        while (currentNode != null) {
+            result.push(currentNode.getCoordinates());
+            currentNode = currentNode.getCamefrom();
+        }
+        result.reverse();
+        return result;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (PathFinder);
 
-var _random2 = _interopRequireDefault(_random);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+/***/ }),
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/***/ "./src/scripts/Engine/PathNode.ts":
+/*!****************************************!*\
+  !*** ./src/scripts/Engine/PathNode.ts ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var Field = function () {
-    function Field(size) {
-        _classCallCheck(this, Field);
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class PathNode {
+    constructor(coordinates, distanceFromStart, cameFrom) {
+        this.coordinates = coordinates;
+        this.distanceFromStart = distanceFromStart;
+        this.cameFrom = cameFrom;
+    }
+    setCameFrom(cameFrom) {
+        this.cameFrom = cameFrom;
+    }
+    setDistanceFroStart(distance) {
+        this.distanceFromStart = distance;
+    }
+    getHeuristicDistanceToGoal() {
+        return this.heuristicDistanceToGoal;
+    }
+    getHeuristicDistanceTo(coordinates) {
+        let distanceToCoordinates = Math.abs(coordinates.x - this.coordinates.x) +
+            Math.abs(coordinates.y - this.coordinates.y);
+        return this.distanceFromStart + distanceToCoordinates;
+    }
+    getCoordinates() {
+        return this.coordinates;
+    }
+    getDistanceFromStart() {
+        return this.distanceFromStart;
+    }
+    getCamefrom() {
+        return this.cameFrom;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (PathNode);
 
+
+/***/ }),
+
+/***/ "./src/scripts/EntryPoint.ts":
+/*!***********************************!*\
+  !*** ./src/scripts/EntryPoint.ts ***!
+  \***********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Environment_Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Environment/Field */ "./src/scripts/Environment/Field.ts");
+/* harmony import */ var _Engine_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Engine/Game */ "./src/scripts/Engine/Game.ts");
+/* harmony import */ var _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Engine/MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
+/* harmony import */ var _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Engine/PathFinder */ "./src/scripts/Engine/PathFinder.ts");
+/* harmony import */ var _Helpers_StopWatch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Helpers/StopWatch */ "./src/scripts/Helpers/StopWatch.ts");
+
+
+
+
+
+let size = 50;
+let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](size);
+field.randomize();
+let game = new _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"](field);
+game.start();
+game.field.cells[0][0] = 0;
+game.field.cells[49][49] = 0;
+let pathFinder = new _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_3__["default"](game.field, game);
+let stopWatch = new _Helpers_StopWatch__WEBPACK_IMPORTED_MODULE_4__["default"]();
+stopWatch.Start();
+let path = pathFinder.findPath(new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_2__["default"](0, 0), new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_2__["default"](size - 1, size - 1));
+stopWatch.end();
+console.log("bench result: " + stopWatch.getResult());
+console.log("path length: " + path.length);
+// console.log(pathFinder.getCheckedNodes());
+game.field.showNodes(pathFinder.getCheckedNodes());
+game.field.addPath(path);
+// import BinaryTree from "./Engine/BinaryTree";
+// class Test {
+//     public value: number;
+//     public constructor(asd:number) {
+//         this.value = asd;
+//     }
+// }
+// let binaryTree = new BinaryTree(new Test(8));
+// binaryTree.setComparableValue((test) => {return test.value;});
+// binaryTree.add(new Test(4));
+// binaryTree.add(new Test(12));
+// binaryTree.add(new Test(2));
+// binaryTree.add(new Test(6));
+// binaryTree.add(new Test(10));
+// binaryTree.add(new Test(14));
+//
+// binaryTree.print();
+
+
+/***/ }),
+
+/***/ "./src/scripts/Environment/Field.ts":
+/*!******************************************!*\
+  !*** ./src/scripts/Environment/Field.ts ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Helpers_Random__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Helpers/Random */ "./src/scripts/Helpers/Random.ts");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class Field {
+    constructor(size) {
         this.size = size;
         this.cells = [[]];
-        for (var y = 0; y < size; y++) {
+        for (let y = 0; y < size; y++) {
             this.cells[y] = [];
-            for (var x = 0; x < size; x++) {
+            for (let x = 0; x < size; x++) {
                 this.cells[y][x] = 0;
             }
         }
     }
-
-    _createClass(Field, [{
-        key: 'randomize',
-        value: function randomize() {
-            for (var y = 0; y < this.size; y++) {
-                for (var x = 0; x < this.size; x++) {
-                    var r = _random2.default.next(0, 10);
-                    var isWall = 0;
-                    if (r > 7) {
-                        isWall = 1;
-                    }
-                    this.cells[y][x] = isWall;
+    randomize() {
+        for (let y = 0; y < this.size; y++) {
+            for (let x = 0; x < this.size; x++) {
+                let r = _Helpers_Random__WEBPACK_IMPORTED_MODULE_0__["default"].next(0, 10);
+                let isWall = 0;
+                if (r > 7) {
+                    isWall = 1;
                 }
+                this.cells[y][x] = isWall;
             }
         }
-    }, {
-        key: 'render',
-        value: function render() {
-            for (var y = 0; y < this.size; y++) {
-                var row = (0, _jquery2.default)('<div/>', {
-                    class: 'row'
-                });
-                row.appendTo((0, _jquery2.default)("#field"));
-                for (var x = 0; x < this.size; x++) {
-                    var classesName = 'cell';
-                    if (this.cells[y][x] == 1) classesName += ' iscontains';
-                    var cell = (0, _jquery2.default)('<div/>', {
-                        class: classesName,
-                        text: " "
-                    });
-                    cell.appendTo(row);
-                }
-            }
-        }
-    }, {
-        key: 'rerender',
-        value: function rerender() {
-            var currentRow = (0, _jquery2.default)('.field .row');
-            for (var y = 0; y < this.size; y++) {
-                var currentCell = currentRow.find('.cell').first();
-                for (var x = 0; x < this.size; x++) {
-                    if (this.cells[y][x] == 1) {
-                        currentCell.addClass('iscontains');
-                    } else {
-                        currentCell.removeClass('iscontains');
-                    }
-                    currentCell = currentCell.next();
-                }
-                currentRow = currentRow.next();
-            }
-        }
-    }]);
-
-    return Field;
-}();
-
-;
-
-exports.default = Field;
-
-/***/ }),
-
-/***/ "./src/scripts/helpers/random.js":
-/*!***************************************!*\
-  !*** ./src/scripts/helpers/random.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Random = function () {
-    function Random() {
-        _classCallCheck(this, Random);
     }
-
-    _createClass(Random, null, [{
-        key: "next",
-        value: function next(min, max) {
-            return Math.round(Math.random() * (max - min)) + min;
+    render() {
+        for (let y = 0; y < this.size; y++) {
+            let row = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<div/>', {
+                class: 'row'
+            });
+            row.appendTo(jquery__WEBPACK_IMPORTED_MODULE_1___default()("#field"));
+            for (let x = 0; x < this.size; x++) {
+                let classesName = 'cell';
+                if (this.cells[y][x] == 1)
+                    classesName += ' iscontains';
+                let cell = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<div/>', {
+                    class: classesName,
+                    "data-position-x": x,
+                    "data-position-y": y,
+                    text: " "
+                });
+                cell.appendTo(row);
+            }
         }
-    }]);
+    }
+    rerender() {
+        let currentRow = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.field .row');
+        for (let y = 0; y < this.size; y++) {
+            let currentCell = currentRow.find('.cell').first();
+            for (let x = 0; x < this.size; x++) {
+                currentCell.attr("class", "cell");
+                switch (this.cells[y][x]) {
+                    case 1:
+                        currentCell.addClass('is-contains');
+                        break;
+                    case 2:
+                        currentCell.addClass('path');
+                        break;
+                    case 3:
+                        currentCell.addClass('checked-nodes');
+                        break;
+                }
+                currentCell = currentCell.next();
+            }
+            currentRow = currentRow.next();
+        }
+    }
+    addPath(path) {
+        console.log(path);
+        for (let coords of path) {
+            this.cells[coords.y][coords.x] = 2;
+        }
+    }
+    makeWall() {
+        for (let y = 0; y < this.size; y++) {
+            for (let x = 0; x < this.size; x++) {
+                let isWall = 0;
+                if (x == Math.round(this.size / 2) && y < Math.round(this.size / 2)) {
+                    isWall = 1;
+                }
+                if (y == Math.round(this.size / 2) && x < Math.round(this.size / 2)) {
+                    isWall = 1;
+                }
+                this.cells[y][x] = isWall;
+            }
+        }
+        this.cells[0][Math.round(this.size / 2)] = 0;
+        this.cells[this.size - 1][Math.round(this.size / 2)] = 0;
+        this.cells[Math.round(this.size / 2)][0] = 0;
+        this.cells[Math.round(this.size / 2)][this.size - 1] = 0;
+    }
+    showNodes(nodes) {
+        for (let node of nodes) {
+            this.cells[node.getCoordinates().y][node.getCoordinates().x] = 3;
+        }
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Field);
 
-    return Random;
-}();
-
-exports.default = Random;
 
 /***/ }),
 
-/***/ "./src/scripts/main.js":
-/*!*****************************!*\
-  !*** ./src/scripts/main.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/scripts/Helpers/Random.ts":
+/*!***************************************!*\
+  !*** ./src/scripts/Helpers/Random.ts ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+class Random {
+    static next(min, max) {
+        return Math.round(Math.random() * (max - min)) + min;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Random);
 
 
-var _field = __webpack_require__(/*! ./field */ "./src/scripts/field.js");
+/***/ }),
 
-var _field2 = _interopRequireDefault(_field);
+/***/ "./src/scripts/Helpers/StopWatch.ts":
+/*!******************************************!*\
+  !*** ./src/scripts/Helpers/StopWatch.ts ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _game = __webpack_require__(/*! ./engine/game */ "./src/scripts/engine/game.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class StopWatch {
+    constructor() {
+    }
+    Start() {
+        this.startDate = new Date();
+    }
+    end() {
+        this.endDate = new Date();
+        this.result = this.endDate.getTime() - this.startDate.getTime();
+    }
+    getResult() {
+        return this.result;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (StopWatch);
 
-var _game2 = _interopRequireDefault(_game);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var field = new _field2.default(10);
-field.randomize();
-var game = new _game2.default(field);
-game.start();
-console.log(field);
 
 /***/ }),
 
@@ -10689,13 +10896,13 @@ console.log(field);
 /***/ }),
 
 /***/ 0:
-/*!**********************************************************!*\
-  !*** multi ./src/scripts/main.js ./src/styles/main.scss ***!
-  \**********************************************************/
+/*!****************************************************************!*\
+  !*** multi ./src/scripts/EntryPoint.ts ./src/styles/main.scss ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./src/scripts/main.js */"./src/scripts/main.js");
+__webpack_require__(/*! ./src/scripts/EntryPoint.ts */"./src/scripts/EntryPoint.ts");
 module.exports = __webpack_require__(/*! ./src/styles/main.scss */"./src/styles/main.scss");
 
 
