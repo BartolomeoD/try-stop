@@ -1,17 +1,22 @@
 import BinaryTreeNode from "./BinaryTreeNode";
 
-class BinaryTree<T> {
+class BinaryTree<T> implements Iterable<BinaryTreeNode<T>> {
     public firstItem: BinaryTreeNode<T>;
     private comparableValue: (T: T) => number;
 
     public constructor(argument: T, func: (T: T) => number) {
         this.comparableValue = func;
-        this.firstItem = new BinaryTreeNode<T>(argument, null, this.comparableValue(argument));
+        if (argument != null)
+            this.firstItem = new BinaryTreeNode<T>(argument, null, this.comparableValue(argument));
     }
 
     public add(argument: T) {
-        let parentNode: BinaryTreeNode<T> = this.firstItem;
         let argumentComparableValue = this.comparableValue(argument);
+        if (this.firstItem == null || this.firstItem == undefined) {
+            this.firstItem = new BinaryTreeNode<T>(argument, null, argumentComparableValue);
+            return;
+        }
+        let parentNode: BinaryTreeNode<T> = this.firstItem;
         while (true) {
             if (parentNode.getKey() > argumentComparableValue) {
                 if (parentNode.getLeft() == null) {
@@ -37,8 +42,28 @@ class BinaryTree<T> {
         }
     }
 
+    private arrayOfElements: T[];
+    
+    public toArray() : T[] {
+        this.arrayOfElements = [];
+        this.inOrder(this.firstItem);
+        return this.arrayOfElements;
+    }
+
+    private inOrder(node: BinaryTreeNode<T>) {
+        if (node != null && node!= undefined) {
+            this.inOrder(node.getLeft());
+            this.arrayOfElements = this.arrayOfElements.concat(node.getValue());
+            this.inOrder(node.getRight());
+        }
+    }
+
     public minimum(): BinaryTreeNode<T> {
         return this.minimumOf(this.firstItem);
+    }
+
+    public isEmpty(): boolean {
+        return this.firstItem == null;
     }
 
     public minimumOf(node: BinaryTreeNode<T>): BinaryTreeNode<T> {
@@ -58,17 +83,23 @@ class BinaryTree<T> {
         return parent;
     }
 
-    public isExist(arg: T) : boolean {
-        return this.search(arg) != null;
-    }
-
     public search(arg: T): BinaryTreeNode<T> {
         return this.recursiveSearch(this.firstItem, this.comparableValue(arg));
     }
 
+    public searchItem(arg: T, func: (T: T) => boolean): T {
+        let node = this.search(arg);
+        if (node == null)
+            return null;
+        let items = node.getValue();
+        return items.find(func);
+    }
+
     private recursiveSearch(node: BinaryTreeNode<T>, key: number): BinaryTreeNode<T> {
+        if (node == null)
+            return null;
         let nodeKey = node.getKey();
-        if (node == null || nodeKey == key)
+        if (nodeKey == key)
             return node;
         if (key < nodeKey)
             return this.recursiveSearch(node.getLeft(), key);
@@ -87,11 +118,18 @@ class BinaryTree<T> {
 
     public removeNode(arg: BinaryTreeNode<T>) {
         // let argValue = arg.getValue());
-        if (arg.getValue().length > 1) {
 
-        }
         let parentNode = arg.getParent();
-        if (arg.getLeft() == null && arg.getRight() == null) {
+        if (parentNode == null) {
+            let nextRoot = arg.getRight();
+            this.firstItem = nextRoot;
+            if (nextRoot != null)
+                nextRoot.setParent(null);
+        }
+        else if (arg.getLeft() == null && arg.getRight() == null) {
+            if (parentNode == null) {
+                this.firstItem = null;
+            }
             if (parentNode.getRight() == arg)
                 parentNode.setRight(null);
             if (parentNode.getLeft() == arg)
@@ -153,6 +191,26 @@ class BinaryTree<T> {
             }
             console.log(consoleRow);
             nodesArray = newNodesArray;
+        }
+    }
+
+    [Symbol.iterator]() {
+        let node = this.minimum();
+        return {
+            next(): IteratorResult<BinaryTreeNode<T>> {
+                if (node != null && node != undefined) {
+                    node = this.next(node);
+                    return {
+                        done: false,
+                        value: node
+                    }
+                } else {
+                    return {
+                        done: true,
+                        value: null
+                    }
+                }
+            }
         }
     }
 }

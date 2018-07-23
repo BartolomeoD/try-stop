@@ -1,5 +1,6 @@
 import PathNode from "./PathNode";
 import MapCoordinates from "./MapCoordinates";
+import BinaryTree from "./BinaryTree";
 class PathFinder {
     constructor(field, game) {
         this.field = field;
@@ -9,59 +10,44 @@ class PathFinder {
         return this.checkedNodes;
     }
     findPath(from, to) {
-        this.nodesToCheck = [];
-        this.checkedNodes = [];
-        let startNode = new PathNode(from, 0, null);
-        this.nodesToCheck.push(startNode);
-        let index = 0;
-        while (this.nodesToCheck.length > 0) {
-            let sortedNodes = this.nodesToCheck.sort((bigger, smaller) => {
-                // console.log(bigger.getHeuristicDistanceToGoal().toString() + " "
-                //     + smaller.getHeuristicDistanceToGoal().toString());
-                if (bigger.getHeuristicDistanceTo(to) > smaller.getHeuristicDistanceTo(to))
-                    return 1;
-                if (bigger.getHeuristicDistanceTo(to) < smaller.getHeuristicDistanceTo(to))
-                    return -1;
-                return 0;
-            });
-            let currentNode = sortedNodes[0];
-            // this.game.field.cells[currentNode.getCoordinates().y][currentNode.getCoordinates().x] = 3;
-            // if (index > 20) {
-            //     this.game.field.rerender();
-            //     index = 0;
-            // }
-            index++;
+        let startNode = new PathNode(from, 0, null, to);
+        this.nodesToCheck = new BinaryTree(startNode, (node1) => {
+            return node1.getFullPath();
+        });
+        this.checkedNodes = new BinaryTree(null, (node1) => {
+            return node1.getHeuristicDistanceToGoal();
+        });
+        while (!this.nodesToCheck.isEmpty()) {
+            let currentNode = this.nodesToCheck.minimum().getValue()[0];
             if (currentNode.getCoordinates().toString() == to.toString()) {
-                console.log(currentNode);
+                console.log("path find");
                 return this.getResultPath(currentNode);
             }
-            this.nodesToCheck.splice(0, 1);
-            this.checkedNodes.push(currentNode);
-            for (let neighbourNode of this.getNeighbors(currentNode)) {
-                if (this.checkedNodes.some((value) => {
-                    // if (value.getCoordinates().toString() == neighbourNode.getCoordinates().toString()) {
-                    //     console.log("true");
-                    // }
+            this.nodesToCheck.removeNodeElement(currentNode);
+            this.checkedNodes.add(currentNode);
+            for (let neighbourNode of this.getNeighbors(currentNode, to)) {
+                if (this.checkedNodes.searchItem(neighbourNode, (value) => {
                     return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
                 })) {
                     continue;
                 }
-                let processedNode = this.nodesToCheck.find((value) => {
+                let processedNode = this.nodesToCheck.searchItem(neighbourNode, (value) => {
                     return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
                 });
-                if (processedNode == undefined)
-                    this.nodesToCheck.push(neighbourNode);
+                if (processedNode == null) {
+                    this.nodesToCheck.add(neighbourNode);
+                }
                 else {
                     if (processedNode.getDistanceFromStart() > neighbourNode.getDistanceFromStart()) {
                         processedNode.setCameFrom(currentNode);
-                        processedNode.setDistanceFroStart(currentNode.getDistanceFromStart());
+                        processedNode.setDistanceFromStart(currentNode.getDistanceFromStart());
                     }
                 }
             }
         }
         return null;
     }
-    getNeighbors(node) {
+    getNeighbors(node, to) {
         let pathNodesCoordinates = [];
         let nodeCoordinates = node.getCoordinates();
         pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x + 1, nodeCoordinates.y));
@@ -78,7 +64,7 @@ class PathFinder {
             }
             if (this.field.cells[coords.y][coords.x] == 1)
                 continue;
-            pathNodes.push(new PathNode(coords, node.getDistanceFromStart() + 1, node));
+            pathNodes.push(new PathNode(coords, node.getDistanceFromStart() + 1, node, to));
         }
         return pathNodes;
     }

@@ -16,7 +16,7 @@ class Field {
             for (let x = 0; x < this.size; x++) {
                 let r = Random.next(0, 20);
                 let isWall = 0;
-                if (r > 13) {
+                if (r > 15) {
                     isWall = 1;
                 }
                 this.cells[y][x] = isWall;
@@ -26,8 +26,8 @@ class Field {
     render() {
         for (let y = 0; y < this.size; y++) {
             let row = $('<div/>', {
-                class: 'row'
-            });
+                class: 'row',
+            }).height((100 / this.size).toString() + "%");
             row.appendTo($("#field"));
             for (let x = 0; x < this.size; x++) {
                 let classesName = 'cell';
@@ -38,7 +38,7 @@ class Field {
                     "data-position-x": x,
                     "data-position-y": y,
                     text: " "
-                });
+                }).width((100 / this.size).toString() + "%");
                 cell.appendTo(row);
             }
         }

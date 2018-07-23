@@ -1,13 +1,14 @@
 class PathNode {
-    constructor(coordinates, distanceFromStart, cameFrom) {
+    constructor(coordinates, distanceFromStart, cameFrom, goal) {
         this.coordinates = coordinates;
         this.distanceFromStart = distanceFromStart;
         this.cameFrom = cameFrom;
+        this.heuristicDistanceToGoal = this.getHeuristicDistanceTo(goal);
     }
     setCameFrom(cameFrom) {
         this.cameFrom = cameFrom;
     }
-    setDistanceFroStart(distance) {
+    setDistanceFromStart(distance) {
         this.distanceFromStart = distance;
     }
     getHeuristicDistanceToGoal() {
@@ -16,7 +17,7 @@ class PathNode {
     getHeuristicDistanceTo(coordinates) {
         let distanceToCoordinates = Math.abs(coordinates.x - this.coordinates.x) +
             Math.abs(coordinates.y - this.coordinates.y);
-        return this.distanceFromStart + distanceToCoordinates;
+        return distanceToCoordinates;
     }
     getCoordinates() {
         return this.coordinates;
@@ -26,6 +27,12 @@ class PathNode {
     }
     getCamefrom() {
         return this.cameFrom;
+    }
+    getFullPath() {
+        return this.getHeuristicDistanceToGoal() + this.distanceFromStart;
+    }
+    toString() {
+        return this.getCoordinates().toString() + " distanceFromStart " + this.distanceFromStart.toString();
     }
 }
 export default PathNode;

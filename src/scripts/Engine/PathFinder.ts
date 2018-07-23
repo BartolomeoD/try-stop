@@ -2,11 +2,11 @@ import PathNode from "./PathNode";
 import Field from "../Environment/Field";
 import MapCoordinates from "./MapCoordinates";
 import Game from "./Game";
-import Sleep from "../Helpers/Sleep";
+import BinaryTree from "./BinaryTree";
 
 class PathFinder {
-    private checkedNodes: PathNode[];
-    private nodesToCheck: PathNode[];
+    private checkedNodes: BinaryTree<PathNode>;
+    private nodesToCheck: BinaryTree<PathNode>;
     private field: Field;
     private game: Game;
 
@@ -20,65 +20,44 @@ class PathFinder {
     }
 
     public findPath(from: MapCoordinates, to: MapCoordinates) {
-        this.nodesToCheck = [];
-        this.checkedNodes = [];
+        let startNode = new PathNode(from, 0, null, to);
 
-        let startNode = new PathNode(from, 0, null);
+        this.nodesToCheck = new BinaryTree<PathNode>(startNode, (node1) => {
+            return node1.getFullPath();
+        });
+        this.checkedNodes = new BinaryTree<PathNode>(null, (node1) => {
+            return node1.getHeuristicDistanceToGoal();
+        });
 
-        this.nodesToCheck.push(startNode);
-
-        let index = 0;
-
-
-        while (this.nodesToCheck.length > 0) {
-            let sortedNodes = this.nodesToCheck.sort((bigger, smaller) => {
-                // console.log(bigger.getHeuristicDistanceToGoal().toString() + " "
-                //     + smaller.getHeuristicDistanceToGoal().toString());
-                if (bigger.getHeuristicDistanceTo(to) > smaller.getHeuristicDistanceTo(to))
-                    return 1;
-                if (bigger.getHeuristicDistanceTo(to) < smaller.getHeuristicDistanceTo(to))
-                    return -1;
-                return 0;
-            });
-            let currentNode = sortedNodes[0];
-
-            // this.game.field.cells[currentNode.getCoordinates().y][currentNode.getCoordinates().x] = 3;
-            // if (index > 20) {
-            //     this.game.field.rerender();
-            //     index = 0;
-            // }
-
-            index++;
-
+        while (!this.nodesToCheck.isEmpty()) {
+            let currentNode = this.nodesToCheck.minimum().getValue()[0];
 
             if (currentNode.getCoordinates().toString() == to.toString()) {
-                console.log(currentNode);
+                console.log("path find");
                 return this.getResultPath(currentNode);
             }
 
-            this.nodesToCheck.splice(0, 1);
-            this.checkedNodes.push(currentNode);
+            this.nodesToCheck.removeNodeElement(currentNode);
+            this.checkedNodes.add(currentNode);
 
-            for (let neighbourNode of this.getNeighbors(currentNode)) {
 
-                if (this.checkedNodes.some((value) => {
-                    // if (value.getCoordinates().toString() == neighbourNode.getCoordinates().toString()) {
-                    //     console.log("true");
-                    // }
+            for (let neighbourNode of this.getNeighbors(currentNode, to)) {
+                if (this.checkedNodes.searchItem(neighbourNode, (value) => {
                     return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
                 })) {
                     continue;
                 }
-                let processedNode = this.nodesToCheck.find((value) => {
+
+                let processedNode = this.nodesToCheck.searchItem(neighbourNode, (value) => {
                     return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
                 });
 
-                if (processedNode == undefined)
-                    this.nodesToCheck.push(neighbourNode);
-                else {
+                if (processedNode == null) {
+                    this.nodesToCheck.add(neighbourNode);
+                } else {
                     if (processedNode.getDistanceFromStart() > neighbourNode.getDistanceFromStart()) {
                         processedNode.setCameFrom(currentNode);
-                        processedNode.setDistanceFroStart(currentNode.getDistanceFromStart());
+                        processedNode.setDistanceFromStart(currentNode.getDistanceFromStart());
                     }
                 }
             }
@@ -86,7 +65,7 @@ class PathFinder {
         return null;
     }
 
-    public getNeighbors(node: PathNode): PathNode[] {
+    public getNeighbors(node: PathNode, to: MapCoordinates): PathNode[] {
         let pathNodesCoordinates: MapCoordinates[] = [];
         let nodeCoordinates = node.getCoordinates();
 
@@ -109,8 +88,8 @@ class PathFinder {
                 continue;
 
             pathNodes.push(
-                new PathNode(coords, node.getDistanceFromStart() + 1, node)
-            )
+                new PathNode(coords, node.getDistanceFromStart() + 1, node, to)
+            );
         }
 
         return pathNodes;

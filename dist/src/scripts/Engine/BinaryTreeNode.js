@@ -8,8 +8,6 @@ class BinaryTreeNode {
         let index = this.value.findIndex((value) => {
             return value.toString() == arg.toString();
         });
-        // let index = this.value.indexOf(arg);
-        console.log(index);
         if (index != undefined)
             this.value.splice(index, 1);
     }
