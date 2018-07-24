@@ -7,7 +7,7 @@ import Sleep from "./Helpers/Sleep";
 import PathNode from "./Engine/PathNode";
 
 
-let size: number = 50;
+let size: number = 200;
 
 let field = new Field(size);
 field.randomize();

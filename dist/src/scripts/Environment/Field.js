@@ -1,7 +1,12 @@
 import Random from "../Helpers/Random";
-import $ from "jquery";
 class Field {
     constructor(size) {
+        this.htmlSize = 600;
+        this.canvasHtmlElement = document.getElementById("field");
+        this.context = this.canvasHtmlElement.getContext("2d");
+        this.canvasHtmlElement.setAttribute("width", this.htmlSize.toString());
+        this.canvasHtmlElement.setAttribute("height", this.htmlSize.toString());
+        this.cellSize = this.htmlSize / size;
         this.size = size;
         this.cells = [[]];
         for (let y = 0; y < size; y++) {
@@ -25,45 +30,27 @@ class Field {
     }
     render() {
         for (let y = 0; y < this.size; y++) {
-            let row = $('<div/>', {
-                class: 'row',
-            }).height((100 / this.size).toString() + "%");
-            row.appendTo($("#field"));
             for (let x = 0; x < this.size; x++) {
-                let classesName = 'cell';
-                if (this.cells[y][x] == 1)
-                    classesName += ' wall';
-                let cell = $('<div/>', {
-                    class: classesName,
-                    "data-position-x": x,
-                    "data-position-y": y,
-                    text: " "
-                }).width((100 / this.size).toString() + "%");
-                cell.appendTo(row);
+                switch (this.cells[y][x]) {
+                    case 0:
+                        this.context.fillStyle = "white";
+                        break;
+                    case 1:
+                        this.context.fillStyle = "black";
+                        break;
+                    case 2:
+                        this.context.fillStyle = "red";
+                        break;
+                    case 3:
+                        this.context.fillStyle = "blueviolet";
+                        break;
+                }
+                this.fillRect(x, y);
             }
         }
     }
-    rerender() {
-        let currentRow = $('.field .row');
-        for (let y = 0; y < this.size; y++) {
-            let currentCell = currentRow.find('.cell').first();
-            for (let x = 0; x < this.size; x++) {
-                currentCell.attr("class", "cell");
-                switch (this.cells[y][x]) {
-                    case 1:
-                        currentCell.addClass('wall');
-                        break;
-                    case 2:
-                        currentCell.addClass('path');
-                        break;
-                    case 3:
-                        currentCell.addClass('checked-nodes');
-                        break;
-                }
-                currentCell = currentCell.next();
-            }
-            currentRow = currentRow.next();
-        }
+    fillRect(x, y) {
+        this.context.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
     }
     addPath(path) {
         for (let coords of path) {

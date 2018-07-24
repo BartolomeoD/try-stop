@@ -3,7 +3,7 @@ import Game from './Engine/Game';
 import MapCoordinates from "./Engine/MapCoordinates";
 import PathFinder from "./Engine/PathFinder";
 import StopWatch from "./Helpers/StopWatch";
-let size = 50;
+let size = 200;
 let field = new Field(size);
 field.randomize();
 let game = new Game(field);

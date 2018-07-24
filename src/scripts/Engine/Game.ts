@@ -1,4 +1,5 @@
 import Field from "../Environment/Field";
+import StopWatch from "../Helpers/StopWatch";
 
 class Game {
     public field: Field;
@@ -13,7 +14,11 @@ class Game {
     }
 
     public update() {
-        this.field.rerender();
+        let stopwatch: StopWatch = new StopWatch();
+        stopwatch.Start();
+        this.field.render();
+        stopwatch.end();
+        console.log(stopwatch.getResult());
     }
 }
 

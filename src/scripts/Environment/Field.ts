@@ -6,8 +6,18 @@ import PathNode from "../Engine/PathNode";
 class Field {
     public size: number;
     public cells: number[][];
+    private htmlSize: number = 600;
+    private canvasHtmlElement: HTMLCanvasElement;
+    private context: CanvasRenderingContext2D;
+    private cellSize: number;
 
     public constructor(size: number) {
+        this.canvasHtmlElement = <HTMLCanvasElement>document.getElementById("field");
+        this.context = this.canvasHtmlElement.getContext("2d");
+        this.canvasHtmlElement.setAttribute("width", this.htmlSize.toString());
+        this.canvasHtmlElement.setAttribute("height", this.htmlSize.toString());
+        this.cellSize = this.htmlSize / size;
+
         this.size = size;
         this.cells = [[]];
         for (let y = 0; y < size; y++) {
@@ -33,47 +43,29 @@ class Field {
 
     public render() {
         for (let y = 0; y < this.size; y++) {
-            let row = $('<div/>', {
-                class: 'row',
-            }).height((100/this.size).toString() + "%");
-            row.appendTo($("#field"));
             for (let x = 0; x < this.size; x++) {
-                let classesName = 'cell';
-                if (this.cells[y][x] == 1)
-                    classesName += ' wall';
-                let cell = $('<div/>', {
-                    class: classesName,
-                    "data-position-x": x,
-                    "data-position-y": y,
-                    text: " "
-                }).width((100/this.size).toString() + "%");
-                cell.appendTo(row);
+                switch (this.cells[y][x]) {
+                    case 0:
+                        this.context.fillStyle = "white";
+                        break;
+                    case 1:
+                        this.context.fillStyle = "black";
+                        break;
+                    case 2:
+                        this.context.fillStyle = "red";
+                        break;
+                    case 3:
+                        this.context.fillStyle = "blueviolet";
+                        break;
+
+                }
+                this.fillRect(x, y);
             }
         }
     }
 
-    public rerender() {
-        let currentRow = $('.field .row');
-        for (let y = 0; y < this.size; y++) {
-            let currentCell = currentRow.find('.cell').first();
-            for (let x = 0; x < this.size; x++) {
-                currentCell.attr("class", "cell");
-                switch (this.cells[y][x]) {
-                    case 1:
-                        currentCell.addClass('wall');
-                        break;
-                    case 2:
-                        currentCell.addClass('path');
-                        break;
-                    case 3:
-                        currentCell.addClass('checked-nodes');
-                        break;
-                }
-
-                currentCell = currentCell.next();
-            }
-            currentRow = currentRow.next();
-        }
+    public fillRect(x: number, y: number) {
+        this.context.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
     }
 
     public addPath(path: MapCoordinates[]) {
@@ -86,19 +78,19 @@ class Field {
         for (let y = 0; y < this.size; y++) {
             for (let x = 0; x < this.size; x++) {
                 let isWall = 0;
-                if (x == Math.round(this.size/2) && y < Math.round(this.size/2)) {
+                if (x == Math.round(this.size / 2) && y < Math.round(this.size / 2)) {
                     isWall = 1;
                 }
-                if (y == Math.round(this.size/2) && x < Math.round(this.size/2)) {
+                if (y == Math.round(this.size / 2) && x < Math.round(this.size / 2)) {
                     isWall = 1;
                 }
                 this.cells[y][x] = isWall;
             }
         }
-        this.cells[0][Math.round(this.size/2)] = 0;
-        this.cells[this.size-1][Math.round(this.size/2)] = 0;
-        this.cells[Math.round(this.size/2)][0] = 0;
-        this.cells[Math.round(this.size/2)][this.size-1] = 0;
+        this.cells[0][Math.round(this.size / 2)] = 0;
+        this.cells[this.size - 1][Math.round(this.size / 2)] = 0;
+        this.cells[Math.round(this.size / 2)][0] = 0;
+        this.cells[Math.round(this.size / 2)][this.size - 1] = 0;
     }
 
     public showNodes(nodes: PathNode[]) {
