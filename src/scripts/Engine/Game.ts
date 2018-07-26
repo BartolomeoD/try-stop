@@ -10,15 +10,11 @@ class Game {
 
     public start() {
         this.field.render();
-        setInterval(this.update.bind(this), 2000);
+        setInterval(this.update.bind(this), 16);
     }
 
     public update() {
-        let stopwatch: StopWatch = new StopWatch();
-        stopwatch.Start();
         this.field.render();
-        stopwatch.end();
-        console.log(stopwatch.getResult());
     }
 }
 

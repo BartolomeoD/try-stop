@@ -2,8 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c072376-b2da-40a2-81af-8ff54ea5aca6" name="Default" comment="//">
+      <change afterPath="$PROJECT_DIR$/src/scripts/GameObjects/Box.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scripts/GameObjects/Enemy.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scripts/GameObjects/GameObject.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/scripts/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/scripts/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/scripts/script.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/scripts/script.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/Engine/Game.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/Engine/Game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/Engine/Game.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/Engine/Game.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/Engine/PathFinder.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/Engine/PathFinder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/Engine/PathFinder.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/Engine/PathFinder.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/EntryPoint.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/EntryPoint.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/EntryPoint.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/EntryPoint.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/Environment/Field.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/Environment/Field.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/scripts/Environment/Field.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/scripts/Environment/Field.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/Engine/Game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/Engine/Game.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/EntryPoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/EntryPoint.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/Environment/Field.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/Environment/Field.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,45 +31,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EntryPoint.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EntryPoint.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/scripts/EntryPoint.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+            <state relative-caret-position="396">
+              <caret line="22" column="2" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
-                <marker date="1532446358987" expanded="true" signature="0:415" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/readme.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="270">
-                <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BinaryTree.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/scripts/Engine/BinaryTree.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="56" column="42" selection-start-line="56" selection-start-column="42" selection-end-line="56" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/styles/main.scss">
+      <file leaf-file-name="GameObject.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/GameObjects/GameObject.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="36">
-              <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+              <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Enemy.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/GameObjects/Enemy.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="30" column="48" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#54#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -60,8 +67,8 @@
       <file leaf-file-name="Game.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/Engine/Game.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+            <state relative-caret-position="198">
+              <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -69,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="MapCoordinates.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/Engine/MapCoordinates.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
-              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+              <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -81,8 +88,8 @@
       <file leaf-file-name="PathFinder.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="34" column="12" lean-forward="true" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+            <state relative-caret-position="344">
+              <caret line="84" column="73" selection-start-line="84" selection-start-column="73" selection-end-line="84" selection-end-column="73" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -93,8 +100,8 @@
       <file leaf-file-name="Field.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/Environment/Field.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="61" column="36" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
+            <state relative-caret-position="90">
+              <caret line="50" column="49" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -102,13 +109,9 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PathNode.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/scripts/Engine/PathNode.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
-            </state>
-          </provider>
+      <file leaf-file-name="Random.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/scripts/Helpers/Random.ts">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -130,6 +133,7 @@
       <find>checkedNodes</find>
       <find>node</find>
       <find>console.log</find>
+      <find>game</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -146,19 +150,24 @@
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/src/scripts/Engine/Coordinates.ts" />
         <option value="$PROJECT_DIR$/tsconfig.json" />
-        <option value="$PROJECT_DIR$/src/scripts/Engine/MapCoordinates.ts" />
         <option value="$PROJECT_DIR$/src/scripts/Helpers/StopWatch.ts" />
         <option value="$PROJECT_DIR$/src/scripts/Helpers/Sleep.ts" />
         <option value="$PROJECT_DIR$/src/scripts/Engine/BinaryTreeNode.ts" />
         <option value="$PROJECT_DIR$/src/scripts/Engine/PathNode.ts" />
-        <option value="$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts" />
         <option value="$PROJECT_DIR$/src/scripts/Engine/BinaryTree.ts" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/styles/main.scss" />
-        <option value="$PROJECT_DIR$/src/scripts/Environment/Field.ts" />
-        <option value="$PROJECT_DIR$/src/scripts/Engine/Game.ts" />
-        <option value="$PROJECT_DIR$/src/scripts/EntryPoint.ts" />
         <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/src/scripts/Engine/Game.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/GameObjects/IGameObjects.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/GameObjects/Box.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/GameObjects/IGameObject.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/GameObjects/GameObject.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/Engine/MapCoordinates.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/GameObjects/Enemy.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/Environment/Field.ts" />
+        <option value="$PROJECT_DIR$/src/scripts/EntryPoint.ts" />
       </list>
     </option>
   </component>
@@ -205,7 +214,28 @@
               <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
               <item name="try-stop" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="styles" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+              <item name="Engine" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+              <item name="Environment" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="try-stop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="try-stop" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+              <item name="GameObjects" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -261,12 +291,12 @@
       <updated>1531929400771</updated>
       <workItem from="1531929410687" duration="29556000" />
       <workItem from="1532192640979" duration="42396000" />
-      <workItem from="1532359473037" duration="12631000" />
+      <workItem from="1532359473037" duration="27461000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84583000" />
+    <option name="totallyTimeSpent" value="99413000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -286,15 +316,15 @@
       <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="bottom" id="Run" order="7" weight="0.32972136" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" visible="true" weight="0.38235295" />
-      <window_info anchor="bottom" id="TypeScript" order="11" weight="0.32972136" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25718608" />
+      <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" weight="0.25386998" />
+      <window_info anchor="bottom" id="TypeScript" order="11" weight="0.20897833" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25718608" />
       <window_info anchor="bottom" id="Docker" order="4" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.32972136" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="8" weight="0.19504644" />
+      <window_info anchor="bottom" id="Debug" order="8" weight="0.19814241" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -334,7 +364,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/scripts/GameObjects/GameObject.ts</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -344,7 +381,6 @@
           <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
-            <marker date="1532446358987" expanded="true" signature="0:415" ph="..." />
           </folding>
         </state>
       </provider>
@@ -441,7 +477,6 @@
           <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
-            <marker date="1532446358987" expanded="true" signature="0:415" ph="..." />
           </folding>
         </state>
       </provider>
@@ -504,13 +539,6 @@
     <entry file="file://$PROJECT_DIR$/src/scripts/Environment/Field.js" />
     <entry file="file://$PROJECT_DIR$/src/scripts/Engine/Game.js" />
     <entry file="file://$PROJECT_DIR$/src/scripts/Helpers/Random.js" />
-    <entry file="file://$PROJECT_DIR$/src/scripts/Helpers/Random.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="45" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scripts/EntryPoint.js" />
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -535,13 +563,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
           <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Engine/MapCoordinates.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="59" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
         </state>
       </provider>
     </entry>
@@ -594,47 +615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Environment/Field.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="61" column="36" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="34" column="12" lean-forward="true" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/Engine/Game.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/EntryPoint.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-            <marker date="1532446358987" expanded="true" signature="0:415" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -642,6 +622,97 @@
             <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/webpack/lib/Entrypoint.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/GameObjects/Box.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Engine/MapCoordinates.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Helpers/Random.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Engine/PathFinder.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="84" column="73" selection-start-line="84" selection-start-column="73" selection-end-line="84" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/GameObjects/GameObject.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es6.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="21746" column="17" selection-start-line="21746" selection-start-column="17" selection-end-line="21746" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/GameObjects/Enemy.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="30" column="48" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Engine/Game.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/Environment/Field.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="50" column="49" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/EntryPoint.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="2" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

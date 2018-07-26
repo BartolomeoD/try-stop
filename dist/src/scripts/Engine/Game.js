@@ -1,18 +1,13 @@
-import StopWatch from "../Helpers/StopWatch";
 class Game {
     constructor(field) {
         this.field = field;
     }
     start() {
         this.field.render();
-        setInterval(this.update.bind(this), 2000);
+        setInterval(this.update.bind(this), 16);
     }
     update() {
-        let stopwatch = new StopWatch();
-        stopwatch.Start();
         this.field.render();
-        stopwatch.end();
-        console.log(stopwatch.getResult());
     }
 }
 export default Game;

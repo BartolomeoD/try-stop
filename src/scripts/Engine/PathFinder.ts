@@ -1,18 +1,16 @@
 import PathNode from "./PathNode";
 import Field from "../Environment/Field";
 import MapCoordinates from "./MapCoordinates";
-import Game from "./Game";
 import BinaryTree from "./BinaryTree";
+import Box from "../GameObjects/Box";
 
 class PathFinder {
     private checkedNodes: BinaryTree<PathNode>;
     private nodesToCheck: BinaryTree<PathNode>;
     private field: Field;
-    private game: Game;
 
-    public constructor(field: Field, game: Game) {
+    public constructor(field: Field) {
         this.field = field;
-        this.game = game;
     }
 
     public getCheckedNodes() {
@@ -84,7 +82,7 @@ class PathFinder {
                 continue;
             }
 
-            if (this.field.cells[coords.y][coords.x] == 1)
+            if (this.field.getObjectByCoordinates(coords) instanceof Box)
                 continue;
 
             pathNodes.push(
