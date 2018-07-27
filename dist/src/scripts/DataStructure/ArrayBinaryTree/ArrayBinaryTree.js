@@ -1,21 +1,21 @@
-import BinaryTreeNode from "./BinaryTreeNode";
-class BinaryTree {
+import ArrayBinaryTreeNode from "./ArrayBinaryTreeNode";
+class ArrayBinaryTree {
     constructor(argument, func) {
         this.comparableValue = func;
         if (argument != null)
-            this.firstItem = new BinaryTreeNode(argument, null, this.comparableValue(argument));
+            this.firstItem = new ArrayBinaryTreeNode(argument, null, this.comparableValue(argument));
     }
     add(argument) {
         let argumentComparableValue = this.comparableValue(argument);
         if (this.firstItem == null || this.firstItem == undefined) {
-            this.firstItem = new BinaryTreeNode(argument, null, argumentComparableValue);
+            this.firstItem = new ArrayBinaryTreeNode(argument, null, argumentComparableValue);
             return;
         }
         let parentNode = this.firstItem;
         while (true) {
             if (parentNode.getKey() > argumentComparableValue) {
                 if (parentNode.getLeft() == null) {
-                    parentNode.setLeft(new BinaryTreeNode(argument, parentNode, argumentComparableValue));
+                    parentNode.setLeft(new ArrayBinaryTreeNode(argument, parentNode, argumentComparableValue));
                     break;
                 }
                 else {
@@ -24,7 +24,7 @@ class BinaryTree {
             }
             else if (parentNode.getKey() < argumentComparableValue) {
                 if (parentNode.getRight() == null) {
-                    parentNode.setRight(new BinaryTreeNode(argument, parentNode, argumentComparableValue));
+                    parentNode.setRight(new ArrayBinaryTreeNode(argument, parentNode, argumentComparableValue));
                     break;
                 }
                 else {
@@ -80,6 +80,12 @@ class BinaryTree {
         let items = node.getValue();
         return items.find(func);
     }
+    searchByKey(key) {
+        let node = this.recursiveSearch(this.firstItem, key);
+        if (node == null)
+            return null;
+        let items = node.getValue();
+    }
     recursiveSearch(node, key) {
         if (node == null)
             return null;
@@ -100,7 +106,6 @@ class BinaryTree {
         this.removeNode(node);
     }
     removeNode(arg) {
-        // let argValue = arg.getValue());
         let parentNode = arg.getParent();
         if (parentNode == null) {
             let nextRoot = arg.getRight();
@@ -179,26 +184,6 @@ class BinaryTree {
             nodesArray = newNodesArray;
         }
     }
-    [Symbol.iterator]() {
-        let node = this.minimum();
-        return {
-            next() {
-                if (node != null && node != undefined) {
-                    node = this.next(node);
-                    return {
-                        done: false,
-                        value: node
-                    };
-                }
-                else {
-                    return {
-                        done: true,
-                        value: null
-                    };
-                }
-            }
-        };
-    }
 }
-export default BinaryTree;
-//# sourceMappingURL=BinaryTree.js.map
+export default ArrayBinaryTree;
+//# sourceMappingURL=ArrayBinaryTree.js.map

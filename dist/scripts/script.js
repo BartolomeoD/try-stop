@@ -86,34 +86,34 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/scripts/Engine/BinaryTree.ts":
-/*!******************************************!*\
-  !*** ./src/scripts/Engine/BinaryTree.ts ***!
-  \******************************************/
+/***/ "./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTree.ts":
+/*!**********************************************************************!*\
+  !*** ./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTree.ts ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _BinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BinaryTreeNode */ "./src/scripts/Engine/BinaryTreeNode.ts");
+/* harmony import */ var _ArrayBinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ArrayBinaryTreeNode */ "./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTreeNode.ts");
 
-class BinaryTree {
+class ArrayBinaryTree {
     constructor(argument, func) {
         this.comparableValue = func;
         if (argument != null)
-            this.firstItem = new _BinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, null, this.comparableValue(argument));
+            this.firstItem = new _ArrayBinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, null, this.comparableValue(argument));
     }
     add(argument) {
         let argumentComparableValue = this.comparableValue(argument);
         if (this.firstItem == null || this.firstItem == undefined) {
-            this.firstItem = new _BinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, null, argumentComparableValue);
+            this.firstItem = new _ArrayBinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, null, argumentComparableValue);
             return;
         }
         let parentNode = this.firstItem;
         while (true) {
             if (parentNode.getKey() > argumentComparableValue) {
                 if (parentNode.getLeft() == null) {
-                    parentNode.setLeft(new _BinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, parentNode, argumentComparableValue));
+                    parentNode.setLeft(new _ArrayBinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, parentNode, argumentComparableValue));
                     break;
                 }
                 else {
@@ -122,7 +122,7 @@ class BinaryTree {
             }
             else if (parentNode.getKey() < argumentComparableValue) {
                 if (parentNode.getRight() == null) {
-                    parentNode.setRight(new _BinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, parentNode, argumentComparableValue));
+                    parentNode.setRight(new _ArrayBinaryTreeNode__WEBPACK_IMPORTED_MODULE_0__["default"](argument, parentNode, argumentComparableValue));
                     break;
                 }
                 else {
@@ -178,6 +178,12 @@ class BinaryTree {
         let items = node.getValue();
         return items.find(func);
     }
+    searchByKey(key) {
+        let node = this.recursiveSearch(this.firstItem, key);
+        if (node == null)
+            return null;
+        let items = node.getValue();
+    }
     recursiveSearch(node, key) {
         if (node == null)
             return null;
@@ -198,7 +204,6 @@ class BinaryTree {
         this.removeNode(node);
     }
     removeNode(arg) {
-        // let argValue = arg.getValue());
         let parentNode = arg.getParent();
         if (parentNode == null) {
             let nextRoot = arg.getRight();
@@ -277,42 +282,22 @@ class BinaryTree {
             nodesArray = newNodesArray;
         }
     }
-    [Symbol.iterator]() {
-        let node = this.minimum();
-        return {
-            next() {
-                if (node != null && node != undefined) {
-                    node = this.next(node);
-                    return {
-                        done: false,
-                        value: node
-                    };
-                }
-                else {
-                    return {
-                        done: true,
-                        value: null
-                    };
-                }
-            }
-        };
-    }
 }
-/* harmony default export */ __webpack_exports__["default"] = (BinaryTree);
+/* harmony default export */ __webpack_exports__["default"] = (ArrayBinaryTree);
 
 
 /***/ }),
 
-/***/ "./src/scripts/Engine/BinaryTreeNode.ts":
-/*!**********************************************!*\
-  !*** ./src/scripts/Engine/BinaryTreeNode.ts ***!
-  \**********************************************/
+/***/ "./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTreeNode.ts":
+/*!**************************************************************************!*\
+  !*** ./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTreeNode.ts ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-class BinaryTreeNode {
+class ArrayBinaryTreeNode {
     constructor(argument, parent, key) {
         this.value = [argument];
         this.parent = parent;
@@ -359,7 +344,7 @@ class BinaryTreeNode {
         this.value.push(arg);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (BinaryTreeNode);
+/* harmony default export */ __webpack_exports__["default"] = (ArrayBinaryTreeNode);
 
 
 /***/ }),
@@ -424,8 +409,8 @@ class MapCoordinates {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PathNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PathNode */ "./src/scripts/Engine/PathNode.ts");
 /* harmony import */ var _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
-/* harmony import */ var _BinaryTree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BinaryTree */ "./src/scripts/Engine/BinaryTree.ts");
-/* harmony import */ var _GameObjects_Box__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../GameObjects/Box */ "./src/scripts/GameObjects/Box.ts");
+/* harmony import */ var _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../GameObjects/Box */ "./src/scripts/GameObjects/Box.ts");
+/* harmony import */ var _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DataStructure/ArrayBinaryTree/ArrayBinaryTree */ "./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTree.ts");
 
 
 
@@ -439,10 +424,10 @@ class PathFinder {
     }
     findPath(from, to) {
         let startNode = new _PathNode__WEBPACK_IMPORTED_MODULE_0__["default"](from, 0, null, to);
-        this.nodesToCheck = new _BinaryTree__WEBPACK_IMPORTED_MODULE_2__["default"](startNode, (node1) => {
+        this.nodesToCheck = new _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_3__["default"](startNode, (node1) => {
             return node1.getFullPath();
         });
-        this.checkedNodes = new _BinaryTree__WEBPACK_IMPORTED_MODULE_2__["default"](null, (node1) => {
+        this.checkedNodes = new _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_3__["default"](null, (node1) => {
             return node1.getHeuristicDistanceToGoal();
         });
         while (!this.nodesToCheck.isEmpty()) {
@@ -478,10 +463,10 @@ class PathFinder {
     getNeighbors(node, to) {
         let pathNodesCoordinates = [];
         let nodeCoordinates = node.getCoordinates();
-        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x + 1, nodeCoordinates.y));
-        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x - 1, nodeCoordinates.y));
         pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x, nodeCoordinates.y + 1));
+        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x + 1, nodeCoordinates.y));
         pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x, nodeCoordinates.y - 1));
+        pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x - 1, nodeCoordinates.y));
         let pathNodes = [];
         for (let coords of pathNodesCoordinates) {
             if (coords.x < 0 || coords.x >= this.field.size) {
@@ -490,7 +475,7 @@ class PathFinder {
             if (coords.y < 0 || coords.y >= this.field.size) {
                 continue;
             }
-            if (this.field.getObjectByCoordinates(coords) instanceof _GameObjects_Box__WEBPACK_IMPORTED_MODULE_3__["default"])
+            if (this.field.getObjectByCoordinates(coords) instanceof _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"])
                 continue;
             pathNodes.push(new _PathNode__WEBPACK_IMPORTED_MODULE_0__["default"](coords, node.getDistanceFromStart() + 1, node, to));
         }
@@ -591,7 +576,7 @@ window.onload = () => {
     game.field.deleteObjectByCoordinates(startPoint);
     game.field.deleteObjectByCoordinates(endPoint);
     let enemy = new _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"](startPoint, field);
-    game.field.gameObjects.push(enemy);
+    game.field.gameObjects.add(enemy);
     enemy.goTo(endPoint);
 };
 
@@ -610,7 +595,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Helpers_Random__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Helpers/Random */ "./src/scripts/Helpers/Random.ts");
 /* harmony import */ var _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Engine/MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
 /* harmony import */ var _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../GameObjects/Box */ "./src/scripts/GameObjects/Box.ts");
-/* harmony import */ var _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../GameObjects/Enemy */ "./src/scripts/GameObjects/Enemy.ts");
+/* harmony import */ var _GameObjectCollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GameObjectCollection */ "./src/scripts/Environment/GameObjectCollection.ts");
 
 
 
@@ -624,7 +609,7 @@ class Field {
         this.canvasHtmlElement.setAttribute("height", this.htmlSize.toString());
         this.cellSize = this.htmlSize / size;
         this.size = size;
-        this.gameObjects = [];
+        this.gameObjects = new _GameObjectCollection__WEBPACK_IMPORTED_MODULE_3__["default"](this.size);
     }
     randomize() {
         for (let y = 0; y < this.size; y++) {
@@ -632,34 +617,25 @@ class Field {
                 let r = _Helpers_Random__WEBPACK_IMPORTED_MODULE_0__["default"].next(0, 20);
                 if (r > 15) {
                     let currCoords = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](x, y);
-                    this.gameObjects[x + y * this.size] = new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](currCoords);
+                    this.gameObjects.add(new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](currCoords));
                 }
             }
         }
     }
     getObjectByCoordinates(coords) {
-        let obj = this.gameObjects[coords.x + coords.y * this.size];
-        if (obj == undefined)
-            return null;
-        return obj;
+        return this.gameObjects.getObject(coords);
     }
     deleteObjectByCoordinates(coords) {
-        this.gameObjects[coords.x + coords.y * this.size] = undefined;
+        this.gameObjects.removeByCoordinates(coords);
     }
     render() {
-        this.context.fillStyle = "white";
+        this.context.fillStyle = "#f6f6f6";
         this.context.fillRect(0, 0, this.htmlSize, this.htmlSize);
-        for (let gameObject of this.gameObjects) {
-            if (gameObject instanceof _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"]) {
-                this.context.fillStyle = "black";
-            }
-            else if (gameObject instanceof _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_3__["default"]) {
-                console.log("enemy");
-                this.context.fillStyle = "blueviolet";
-            }
-            else if (gameObject == undefined) {
+        for (let gameObject of this.gameObjects.toArray()) {
+            if (gameObject == undefined) {
                 continue;
             }
+            this.context.fillStyle = gameObject.color;
             this.fillRect(gameObject.coordinates.x, gameObject.coordinates.y);
         }
     }
@@ -673,13 +649,52 @@ class Field {
                 if (x == Math.round(this.size / 2) && y < Math.round(this.size / 2) ||
                     (y == Math.round(this.size / 2) && x < Math.round(this.size / 2))) {
                     var coords = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](x, y);
-                    this.gameObjects[x + y * this.size] = (new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](coords));
+                    this.gameObjects.add((new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](coords)));
                 }
             }
         }
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Field);
+
+
+/***/ }),
+
+/***/ "./src/scripts/Environment/GameObjectCollection.ts":
+/*!*********************************************************!*\
+  !*** ./src/scripts/Environment/GameObjectCollection.ts ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class GameObjectCollection {
+    constructor(fielSize) {
+        this.array = [];
+        this.fieldSize = fielSize;
+    }
+    getObject(coords) {
+        let item = this.array[coords.x + coords.y * this.fieldSize];
+        if (item == undefined)
+            return null;
+        return item;
+    }
+    add(gameObject) {
+        this.array[gameObject.coordinates.x + gameObject.coordinates.y * this.fieldSize] = gameObject;
+    }
+    removeByCoordinates(coords) {
+        this.array[coords.x + coords.y * this.fieldSize] = undefined;
+    }
+    move(from, to) {
+        this.array[to.x + to.y * this.fieldSize] = this.array[from.x + from.y * this.fieldSize];
+        this.removeByCoordinates(from);
+    }
+    toArray() {
+        return this.array;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (GameObjectCollection);
 
 
 /***/ }),
@@ -695,6 +710,7 @@ class Field {
 __webpack_require__.r(__webpack_exports__);
 class Box {
     constructor(coordinates) {
+        this.color = "black";
         this.coordinates = coordinates;
     }
 }
@@ -713,9 +729,12 @@ class Box {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Engine/PathFinder */ "./src/scripts/Engine/PathFinder.ts");
+/* harmony import */ var _Track__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Track */ "./src/scripts/GameObjects/Track.ts");
+
 
 class Enemy {
     constructor(coordinates, field) {
+        this.color = "blueviolet";
         this.coordinates = coordinates;
         this.pathFinder = new _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__["default"](field);
         this.field = field;
@@ -734,7 +753,10 @@ class Enemy {
             console.log(this.field.gameObjects);
             return;
         }
-        this.coordinates = this.path[this.currentStep + 1];
+        let nextStepCoords = this.path[this.currentStep + 1];
+        this.field.gameObjects.move(this.coordinates, nextStepCoords);
+        this.field.gameObjects.add(new _Track__WEBPACK_IMPORTED_MODULE_1__["default"](this.coordinates));
+        this.coordinates = nextStepCoords;
         this.currentStep++;
     }
     //TODO переделать это на следование за отдельным юнитом
@@ -748,6 +770,26 @@ class Enemy {
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Enemy);
+
+
+/***/ }),
+
+/***/ "./src/scripts/GameObjects/Track.ts":
+/*!******************************************!*\
+  !*** ./src/scripts/GameObjects/Track.ts ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Track {
+    constructor(coords) {
+        this.color = "pink";
+        this.coordinates = coords;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Track);
 
 
 /***/ }),

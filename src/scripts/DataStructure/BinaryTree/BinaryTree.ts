@@ -36,22 +36,21 @@ class BinaryTree<T> implements Iterable<BinaryTreeNode<T>> {
                     parentNode = parentNode.getRight();
                 }
             } else {
-                parentNode.addValue(argument);
-                break;
+                throw "added value with exist key " + argumentComparableValue;
             }
         }
     }
 
     private arrayOfElements: T[];
-    
-    public toArray() : T[] {
+
+    public toArray(): T[] {
         this.arrayOfElements = [];
         this.inOrder(this.firstItem);
         return this.arrayOfElements;
     }
 
     private inOrder(node: BinaryTreeNode<T>) {
-        if (node != null && node!= undefined) {
+        if (node != null && node != undefined) {
             this.inOrder(node.getLeft());
             this.arrayOfElements = this.arrayOfElements.concat(node.getValue());
             this.inOrder(node.getRight());
@@ -87,12 +86,18 @@ class BinaryTree<T> implements Iterable<BinaryTreeNode<T>> {
         return this.recursiveSearch(this.firstItem, this.comparableValue(arg));
     }
 
-    public searchItem(arg: T, func: (T: T) => boolean): T {
+    public searchItem(arg: T): T {
         let node = this.search(arg);
         if (node == null)
             return null;
-        let items = node.getValue();
-        return items.find(func);
+        return node.getValue();
+    }
+
+    public searchByKey(key: number): T {
+        let node = this.recursiveSearch(this.firstItem, key);
+        if (node == null)
+            return null;
+        return node.getValue();
     }
 
     private recursiveSearch(node: BinaryTreeNode<T>, key: number): BinaryTreeNode<T> {
@@ -107,18 +112,8 @@ class BinaryTree<T> implements Iterable<BinaryTreeNode<T>> {
             return this.recursiveSearch(node.getRight(), key);
     }
 
-    public removeNodeElement(arg: T) {
-        let node = this.search(arg);
-        if (node.getValue().length > 1) {
-            node.removeFromValue(arg);
-            return
-        }
-        this.removeNode(node);
-    }
 
     public removeNode(arg: BinaryTreeNode<T>) {
-        // let argValue = arg.getValue());
-
         let parentNode = arg.getParent();
         if (parentNode == null) {
             let nextRoot = arg.getRight();
@@ -169,6 +164,11 @@ class BinaryTree<T> implements Iterable<BinaryTreeNode<T>> {
 
     }
 
+    public removeNodeElement(arg: T) {
+        let node = this.search(arg);
+        this.removeNode(node);
+    }
+
     public print() {
         let nodesArray: BinaryTreeNode<T>[] = [];
         nodesArray.push(this.firstItem);
@@ -178,11 +178,7 @@ class BinaryTree<T> implements Iterable<BinaryTreeNode<T>> {
             let newNodesArray: BinaryTreeNode<T>[] = [];
             for (let i: number = 0; i < nodesArray.length; i++) {
                 consoleRow += nodesArray[i].getKey().toString();
-                consoleRow += " [";
-                for (let value of nodesArray[i].getValue()) {
-                    consoleRow += value.toString() + " ";
-                }
-                consoleRow += "]";
+                consoleRow += nodesArray[i].getValue().toString();
                 consoleRow += "   ";
                 if (nodesArray[i].getLeft() != null)
                     newNodesArray.push(nodesArray[i].getLeft());

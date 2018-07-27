@@ -1,22 +1,14 @@
 class BinaryTreeNode<T> {
     private key: number;
-    private value: T[];
+    private value: T;
     private parent: BinaryTreeNode<T>;
     private left: BinaryTreeNode<T>;
     private right: BinaryTreeNode<T>;
 
     public constructor(argument: T, parent: BinaryTreeNode<T>, key: number) {
-        this.value = [argument];
+        this.value = argument;
         this.parent = parent;
         this.key = key;
-    }
-
-    public removeFromValue(arg: T) {
-        let index = this.value.findIndex((value)=> {
-            return value.toString() == arg.toString();
-        });
-        if (index != undefined)
-            this.value.splice(index, 1);
     }
 
     public getParent(): BinaryTreeNode<T> {
@@ -47,11 +39,11 @@ class BinaryTreeNode<T> {
         return this.left;
     }
 
-    public getValue(): T[] {
+    public getValue(): T {
         return this.value;
     }
 
-    public setValue(value: T[]) {
+    public setValue(value: T) {
         this.value = value;
     }
 
@@ -59,9 +51,6 @@ class BinaryTreeNode<T> {
         this.key = value;
     }
 
-    public addValue(arg: T) {
-        this.value.push(arg);
-    }
 }
 
 export default BinaryTreeNode;

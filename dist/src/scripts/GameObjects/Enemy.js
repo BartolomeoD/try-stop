@@ -1,6 +1,8 @@
 import PathFinder from "../Engine/PathFinder";
+import Track from "./Track";
 class Enemy {
     constructor(coordinates, field) {
+        this.color = "blueviolet";
         this.coordinates = coordinates;
         this.pathFinder = new PathFinder(field);
         this.field = field;
@@ -19,7 +21,10 @@ class Enemy {
             console.log(this.field.gameObjects);
             return;
         }
-        this.coordinates = this.path[this.currentStep + 1];
+        let nextStepCoords = this.path[this.currentStep + 1];
+        this.field.gameObjects.move(this.coordinates, nextStepCoords);
+        this.field.gameObjects.add(new Track(this.coordinates));
+        this.coordinates = nextStepCoords;
         this.currentStep++;
     }
     //TODO переделать это на следование за отдельным юнитом

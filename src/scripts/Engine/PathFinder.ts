@@ -1,12 +1,12 @@
 import PathNode from "./PathNode";
 import Field from "../Environment/Field";
 import MapCoordinates from "./MapCoordinates";
-import BinaryTree from "./BinaryTree";
 import Box from "../GameObjects/Box";
+import ArrayBinaryTree from "../DataStructure/ArrayBinaryTree/ArrayBinaryTree";
 
 class PathFinder {
-    private checkedNodes: BinaryTree<PathNode>;
-    private nodesToCheck: BinaryTree<PathNode>;
+    private checkedNodes: ArrayBinaryTree<PathNode>;
+    private nodesToCheck: ArrayBinaryTree<PathNode>;
     private field: Field;
 
     public constructor(field: Field) {
@@ -20,10 +20,10 @@ class PathFinder {
     public findPath(from: MapCoordinates, to: MapCoordinates) {
         let startNode = new PathNode(from, 0, null, to);
 
-        this.nodesToCheck = new BinaryTree<PathNode>(startNode, (node1) => {
+        this.nodesToCheck = new ArrayBinaryTree<PathNode>(startNode, (node1) => {
             return node1.getFullPath();
         });
-        this.checkedNodes = new BinaryTree<PathNode>(null, (node1) => {
+        this.checkedNodes = new ArrayBinaryTree<PathNode>(null, (node1) => {
             return node1.getHeuristicDistanceToGoal();
         });
 
@@ -67,10 +67,10 @@ class PathFinder {
         let pathNodesCoordinates: MapCoordinates[] = [];
         let nodeCoordinates = node.getCoordinates();
 
-        pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x + 1, nodeCoordinates.y));
-        pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x - 1, nodeCoordinates.y));
         pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x, nodeCoordinates.y + 1));
+        pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x + 1, nodeCoordinates.y));
         pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x, nodeCoordinates.y - 1));
+        pathNodesCoordinates.push(new MapCoordinates(nodeCoordinates.x - 1, nodeCoordinates.y));
 
         let pathNodes: PathNode[] = [];
 

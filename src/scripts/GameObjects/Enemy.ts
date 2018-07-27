@@ -2,14 +2,17 @@ import MapCoordinates from "../Engine/MapCoordinates";
 import PathFinder from "../Engine/PathFinder";
 import Field from "../Environment/Field";
 import GameObject from "./GameObject";
+import Track from "./Track";
 
 class Enemy implements GameObject{
     public coordinates: MapCoordinates;
+    public color: string = "blueviolet";
     private path: MapCoordinates[];
     private pathFinder: PathFinder;
     private currentStep: number;
     private field: Field;
     private interval: number;
+
     constructor(coordinates: MapCoordinates, field: Field) {
         this.coordinates = coordinates;
         this.pathFinder = new PathFinder(field);
@@ -31,7 +34,10 @@ class Enemy implements GameObject{
             console.log(this.field.gameObjects);
             return;
         }
-        this.coordinates = this.path[this.currentStep + 1];
+        let nextStepCoords = this.path[this.currentStep + 1];
+        this.field.gameObjects.move(this.coordinates, nextStepCoords)
+        this.field.gameObjects.add(new Track(this.coordinates));
+        this.coordinates = nextStepCoords;
         this.currentStep++;
     }
 

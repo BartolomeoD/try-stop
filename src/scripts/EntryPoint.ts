@@ -18,6 +18,6 @@ window.onload = () => {
     game.field.deleteObjectByCoordinates(endPoint);
 
     let enemy = new Enemy(startPoint, field);
-    game.field.gameObjects.push(enemy);
+    game.field.gameObjects.add(enemy);
     enemy.goTo(endPoint);
 };

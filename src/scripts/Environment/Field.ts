@@ -1,12 +1,12 @@
 import Random from "../Helpers/Random";
 import MapCoordinates from "../Engine/MapCoordinates";
-import GameObject from "../GameObjects/GameObject";
 import Box from "../GameObjects/Box";
-import Enemy from "../GameObjects/Enemy";
+import GameObjectCollection from "./GameObjectCollection";
+import GameObject from "../GameObjects/GameObject";
 
 class Field {
     public size: number;
-    public gameObjects: GameObject[];
+    public gameObjects: GameObjectCollection;
     private htmlSize: number = 600;
     private canvasHtmlElement: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
@@ -20,7 +20,7 @@ class Field {
         this.cellSize = this.htmlSize / size;
 
         this.size = size;
-        this.gameObjects = [];
+        this.gameObjects = new GameObjectCollection(this.size);
     }
 
     public randomize() {
@@ -29,35 +29,29 @@ class Field {
                 let r = Random.next(0, 20);
                 if (r > 15) {
                     let currCoords = new MapCoordinates(x, y);
-                    this.gameObjects[x + y * this.size] = new Box(currCoords);
+                    this.gameObjects.add(new Box(currCoords));
                 }
             }
         }
     }
 
-    public getObjectByCoordinates(coords: MapCoordinates) {
-        let obj = this.gameObjects[coords.x + coords.y * this.size];
-        if (obj == undefined)
-            return null;
-        return obj;
+    public getObjectByCoordinates(coords: MapCoordinates) : GameObject {
+        return this.gameObjects.getObject(coords);
     }
 
     public deleteObjectByCoordinates(coords: MapCoordinates) {
-        this.gameObjects[coords.x + coords.y * this.size] = undefined;
+        this.gameObjects.removeByCoordinates(coords);
     }
 
     public render() {
-        this.context.fillStyle= "white";
+        this.context.fillStyle = "#f6f6f6";
         this.context.fillRect(0, 0, this.htmlSize, this.htmlSize);
-        for (let gameObject of this.gameObjects) {
-            if (gameObject instanceof Box) {
-                this.context.fillStyle = "black";
-            } else if (gameObject instanceof Enemy) {
-                console.log("enemy");
-                this.context.fillStyle = "blueviolet";
-            } else if (gameObject == undefined) {
+        for (let gameObject of this.gameObjects.toArray()) {
+            if (gameObject == undefined) {
                 continue;
             }
+            this.context.fillStyle = gameObject.color;
+
             this.fillRect(gameObject.coordinates.x, gameObject.coordinates.y);
         }
     }
@@ -73,7 +67,7 @@ class Field {
                 if (x == Math.round(this.size / 2) && y < Math.round(this.size / 2) ||
                     (y == Math.round(this.size / 2) && x < Math.round(this.size / 2))) {
                     var coords = new MapCoordinates(x, y);
-                    this.gameObjects[x + y * this.size] = (new Box(coords));
+                    this.gameObjects.add((new Box(coords)));
                 }
             }
         }

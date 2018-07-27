@@ -1,5 +1,4 @@
 import Field from "../Environment/Field";
-import StopWatch from "../Helpers/StopWatch";
 
 class Game {
     public field: Field;
