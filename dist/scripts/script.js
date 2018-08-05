@@ -349,6 +349,62 @@ class ArrayBinaryTreeNode {
 
 /***/ }),
 
+/***/ "./src/scripts/Engine/ControlManager.ts":
+/*!**********************************************!*\
+  !*** ./src/scripts/Engine/ControlManager.ts ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../GlobalVariables */ "./src/scripts/GlobalVariables.ts");
+
+class ControlManager {
+    constructor(player) {
+        this.player = player;
+        this.isDisabled = false;
+    }
+    cacthKey(event) {
+        if (!this.isDisabled) {
+            switch (event.code) {
+                case "ArrowLeft":
+                    this.disableTemproary();
+                    console.log("left");
+                    this.player.moveLeft();
+                    break;
+                case "ArrowRight":
+                    this.disableTemproary();
+                    console.log("right");
+                    this.player.moveRight();
+                    break;
+                case "ArrowDown":
+                    this.disableTemproary();
+                    this.player.moveBottom();
+                    break;
+                case "ArrowUp":
+                    this.disableTemproary();
+                    console.log("up");
+                    this.player.moveUp();
+                    break;
+            }
+        }
+        else {
+            console.log("disabled");
+        }
+    }
+    disableTemproary() {
+        this.isDisabled = true;
+        setTimeout(() => {
+            this.isDisabled = false;
+        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_0__["TickInMiliseconds"]);
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ControlManager);
+
+
+/***/ }),
+
 /***/ "./src/scripts/Engine/Game.ts":
 /*!************************************!*\
   !*** ./src/scripts/Engine/Game.ts ***!
@@ -561,6 +617,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Engine_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Engine/Game */ "./src/scripts/Engine/Game.ts");
 /* harmony import */ var _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameObjects/Enemy */ "./src/scripts/GameObjects/Enemy.ts");
 /* harmony import */ var _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Engine/MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
+/* harmony import */ var _Engine_ControlManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/ControlManager */ "./src/scripts/Engine/ControlManager.ts");
+/* harmony import */ var _GameObjects_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameObjects/Player */ "./src/scripts/GameObjects/Player.ts");
+
+
 
 
 
@@ -576,8 +636,14 @@ window.onload = () => {
     game.field.deleteObjectByCoordinates(startPoint);
     game.field.deleteObjectByCoordinates(endPoint);
     let enemy = new _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"](startPoint, field);
+    let player = new _GameObjects_Player__WEBPACK_IMPORTED_MODULE_5__["default"](endPoint, field);
     game.field.gameObjects.add(enemy);
-    enemy.goTo(endPoint);
+    game.field.gameObjects.add(player);
+    enemy.follow(player);
+    let controlManager = new _Engine_ControlManager__WEBPACK_IMPORTED_MODULE_4__["default"](player);
+    window.onkeydown = (e) => {
+        controlManager.cacthKey(e);
+    };
 };
 
 
@@ -729,12 +795,12 @@ class Box {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Engine/PathFinder */ "./src/scripts/Engine/PathFinder.ts");
-/* harmony import */ var _Track__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Track */ "./src/scripts/GameObjects/Track.ts");
+/* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../GlobalVariables */ "./src/scripts/GlobalVariables.ts");
 
 
 class Enemy {
     constructor(coordinates, field) {
-        this.color = "blueviolet";
+        this.color = "red";
         this.coordinates = coordinates;
         this.pathFinder = new _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__["default"](field);
         this.field = field;
@@ -747,22 +813,31 @@ class Enemy {
         }
     }
     step() {
-        if (this.currentStep == this.path.length - 1) {
+        if (this.currentStep == this.path.length - 2) {
             console.log("end");
             clearInterval(this.interval);
-            console.log(this.field.gameObjects);
             return;
         }
         let nextStepCoords = this.path[this.currentStep + 1];
         this.field.gameObjects.move(this.coordinates, nextStepCoords);
-        this.field.gameObjects.add(new _Track__WEBPACK_IMPORTED_MODULE_1__["default"](this.coordinates));
         this.coordinates = nextStepCoords;
         this.currentStep++;
     }
-    //TODO переделать это на следование за отдельным юнитом
     goTo(coords) {
         this.calculatePath(coords);
-        this.interval = setInterval(this.everyInterval.bind(this), 100);
+        this.interval = setInterval(this.everyInterval.bind(this), _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__["TickInMiliseconds"]);
+    }
+    follow(obj) {
+        this.calculatePath(obj.coordinates);
+        let oldCoordinates = obj.coordinates;
+        this.interval = setInterval(() => {
+            if (obj.coordinates.toString() != oldCoordinates.toString()) {
+                console.log("coordinates changed");
+                oldCoordinates = obj.coordinates;
+                this.calculatePath(obj.coordinates);
+            }
+            this.step();
+        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__["TickInMiliseconds"]);
     }
     everyInterval() {
         console.log("moved");
@@ -774,22 +849,86 @@ class Enemy {
 
 /***/ }),
 
-/***/ "./src/scripts/GameObjects/Track.ts":
-/*!******************************************!*\
-  !*** ./src/scripts/GameObjects/Track.ts ***!
-  \******************************************/
+/***/ "./src/scripts/GameObjects/Player.ts":
+/*!*******************************************!*\
+  !*** ./src/scripts/GameObjects/Player.ts ***!
+  \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-class Track {
-    constructor(coords) {
-        this.color = "pink";
+/* harmony import */ var _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Engine/MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
+
+class Player {
+    constructor(coords, field) {
+        this.color = "green";
         this.coordinates = coords;
+        this.field = field;
+    }
+    moveBottom() {
+        this.move("bottom");
+    }
+    moveUp() {
+        this.move("up");
+    }
+    moveLeft() {
+        this.move("left");
+    }
+    moveRight() {
+        this.move("right");
+    }
+    move(direction) {
+        let supposedCoordinates;
+        switch (direction) {
+            case "up":
+                supposedCoordinates = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_0__["default"](this.coordinates.x, this.coordinates.y - 1);
+                break;
+            case "bottom":
+                supposedCoordinates = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_0__["default"](this.coordinates.x, this.coordinates.y + 1);
+                break;
+            case "left":
+                supposedCoordinates = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_0__["default"](this.coordinates.x - 1, this.coordinates.y);
+                break;
+            case "right":
+                supposedCoordinates = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_0__["default"](this.coordinates.x + 1, this.coordinates.y);
+                break;
+            default:
+                throw "direction not parsed";
+        }
+        console.log("x " + supposedCoordinates.x + ",y " + supposedCoordinates.y);
+        if (!this.isExisOnTheField(supposedCoordinates)) {
+            console.log("not exist");
+            return;
+        }
+        if (this.field.getObjectByCoordinates(supposedCoordinates) != null) {
+            console.log("exist some object");
+            return;
+        }
+        this.field.gameObjects.move(this.coordinates, supposedCoordinates);
+        this.coordinates = supposedCoordinates;
+    }
+    isExisOnTheField(coords) {
+        return !(coords.x >= this.field.size || coords.y >= this.field.size
+            || coords.x < 0 || coords.y < 0);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Track);
+/* harmony default export */ __webpack_exports__["default"] = (Player);
+
+
+/***/ }),
+
+/***/ "./src/scripts/GlobalVariables.ts":
+/*!****************************************!*\
+  !*** ./src/scripts/GlobalVariables.ts ***!
+  \****************************************/
+/*! exports provided: TickInMiliseconds */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TickInMiliseconds", function() { return TickInMiliseconds; });
+const TickInMiliseconds = 100;
 
 
 /***/ }),

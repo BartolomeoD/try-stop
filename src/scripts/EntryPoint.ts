@@ -2,6 +2,8 @@ import Field from './Environment/Field';
 import Game from './Engine/Game';
 import Enemy from "./GameObjects/Enemy";
 import MapCoordinates from "./Engine/MapCoordinates";
+import ControlManager from "./Engine/ControlManager";
+import Player from "./GameObjects/Player";
 
 window.onload = () => {
     let size: number = 50;
@@ -18,6 +20,14 @@ window.onload = () => {
     game.field.deleteObjectByCoordinates(endPoint);
 
     let enemy = new Enemy(startPoint, field);
+    let player = new Player(endPoint, field);
     game.field.gameObjects.add(enemy);
-    enemy.goTo(endPoint);
+    game.field.gameObjects.add(player);
+    enemy.follow(player);
+
+    let controlManager = new ControlManager(player);
+
+    window.onkeydown = (e: KeyboardEvent) => {
+        controlManager.cacthKey(e);
+    };
 };

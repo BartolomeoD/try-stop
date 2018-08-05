@@ -3,10 +3,11 @@ import PathFinder from "../Engine/PathFinder";
 import Field from "../Environment/Field";
 import GameObject from "./GameObject";
 import Track from "./Track";
+import {TickInMiliseconds} from "../GlobalVariables";
 
-class Enemy implements GameObject{
+class Enemy implements GameObject {
     public coordinates: MapCoordinates;
-    public color: string = "blueviolet";
+    public color: string = "red";
     private path: MapCoordinates[];
     private pathFinder: PathFinder;
     private currentStep: number;
@@ -28,24 +29,33 @@ class Enemy implements GameObject{
     }
 
     public step() {
-        if (this.currentStep == this.path.length - 1) {
+        if (this.currentStep == this.path.length - 2) {
             console.log("end");
             clearInterval(this.interval);
-            console.log(this.field.gameObjects);
             return;
         }
         let nextStepCoords = this.path[this.currentStep + 1];
-        this.field.gameObjects.move(this.coordinates, nextStepCoords)
-        this.field.gameObjects.add(new Track(this.coordinates));
+        this.field.gameObjects.move(this.coordinates, nextStepCoords);
         this.coordinates = nextStepCoords;
         this.currentStep++;
     }
 
-
-    //TODO переделать это на следование за отдельным юнитом
     public goTo(coords: MapCoordinates) {
         this.calculatePath(coords);
-        this.interval = setInterval(this.everyInterval.bind(this), 100);
+        this.interval = setInterval(this.everyInterval.bind(this), TickInMiliseconds);
+    }
+
+    public follow(obj: GameObject) {
+        this.calculatePath(obj.coordinates);
+        let oldCoordinates = obj.coordinates;
+        this.interval = setInterval(() => {
+            if (obj.coordinates.toString() != oldCoordinates.toString()) {
+                console.log("coordinates changed");
+                oldCoordinates = obj.coordinates;
+                this.calculatePath(obj.coordinates);
+            }
+            this.step();
+        },TickInMiliseconds)
     }
 
     private everyInterval() {

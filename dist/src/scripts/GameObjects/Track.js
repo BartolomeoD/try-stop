@@ -1,6 +1,6 @@
 class Track {
     constructor(coords) {
-        this.color = "pink";
+        this.color = "blueviolet";
         this.coordinates = coords;
     }
 }

@@ -4,6 +4,13 @@ Try stop
 
 [Ссылка на игру](https://bartolomeod.github.io/try-stop)
 
+v0.1.0
+
+- Добавлен Player
+- Добавлен Enemy
+- Enemy приследует Player
+- Player может ходить
+
 v0.0.1
 
 - Переделан рендер на Canvas

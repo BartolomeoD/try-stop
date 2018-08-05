@@ -1,8 +1,8 @@
 import PathFinder from "../Engine/PathFinder";
-import Track from "./Track";
+import { TickInMiliseconds } from "../GlobalVariables";
 class Enemy {
     constructor(coordinates, field) {
-        this.color = "blueviolet";
+        this.color = "red";
         this.coordinates = coordinates;
         this.pathFinder = new PathFinder(field);
         this.field = field;
@@ -15,22 +15,31 @@ class Enemy {
         }
     }
     step() {
-        if (this.currentStep == this.path.length - 1) {
+        if (this.currentStep == this.path.length - 2) {
             console.log("end");
             clearInterval(this.interval);
-            console.log(this.field.gameObjects);
             return;
         }
         let nextStepCoords = this.path[this.currentStep + 1];
         this.field.gameObjects.move(this.coordinates, nextStepCoords);
-        this.field.gameObjects.add(new Track(this.coordinates));
         this.coordinates = nextStepCoords;
         this.currentStep++;
     }
-    //TODO переделать это на следование за отдельным юнитом
     goTo(coords) {
         this.calculatePath(coords);
-        this.interval = setInterval(this.everyInterval.bind(this), 100);
+        this.interval = setInterval(this.everyInterval.bind(this), TickInMiliseconds);
+    }
+    follow(obj) {
+        this.calculatePath(obj.coordinates);
+        let oldCoordinates = obj.coordinates;
+        this.interval = setInterval(() => {
+            if (obj.coordinates.toString() != oldCoordinates.toString()) {
+                console.log("coordinates changed");
+                oldCoordinates = obj.coordinates;
+                this.calculatePath(obj.coordinates);
+            }
+            this.step();
+        }, TickInMiliseconds);
     }
     everyInterval() {
         console.log("moved");

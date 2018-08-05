@@ -2,6 +2,8 @@ import Field from './Environment/Field';
 import Game from './Engine/Game';
 import Enemy from "./GameObjects/Enemy";
 import MapCoordinates from "./Engine/MapCoordinates";
+import ControlManager from "./Engine/ControlManager";
+import Player from "./GameObjects/Player";
 window.onload = () => {
     let size = 50;
     let field = new Field(size);
@@ -13,7 +15,13 @@ window.onload = () => {
     game.field.deleteObjectByCoordinates(startPoint);
     game.field.deleteObjectByCoordinates(endPoint);
     let enemy = new Enemy(startPoint, field);
+    let player = new Player(endPoint, field);
     game.field.gameObjects.add(enemy);
-    enemy.goTo(endPoint);
+    game.field.gameObjects.add(player);
+    enemy.follow(player);
+    let controlManager = new ControlManager(player);
+    window.onkeydown = (e) => {
+        controlManager.cacthKey(e);
+    };
 };
 //# sourceMappingURL=EntryPoint.js.map
