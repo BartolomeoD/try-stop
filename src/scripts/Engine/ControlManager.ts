@@ -14,24 +14,18 @@ class ControlManager {
 
     public cacthKey(event: KeyboardEvent) {
         if (!this.isDisabled) {
+            this.disableTemproary();
             switch (event.code) {
                 case "ArrowLeft":
-                    this.disableTemproary();
-                    console.log("left");
                     this.player.moveLeft();
                     break;
                 case "ArrowRight":
-                    this.disableTemproary();
-                    console.log("right");
                     this.player.moveRight();
                     break;
                 case "ArrowDown":
-                    this.disableTemproary()
                     this.player.moveBottom();
                     break;
                 case "ArrowUp":
-                    this.disableTemproary();
-                    console.log("up");
                     this.player.moveUp();
                     break;
             }

@@ -1,6 +1,7 @@
 class Track {
     constructor(coords) {
         this.color = "blueviolet";
+        this.isImpenetrable = true;
         this.coordinates = coords;
     }
 }

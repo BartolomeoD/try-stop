@@ -4,9 +4,10 @@ import Enemy from "./GameObjects/Enemy";
 import MapCoordinates from "./Engine/MapCoordinates";
 import ControlManager from "./Engine/ControlManager";
 import Player from "./GameObjects/Player";
+import {TickInMiliseconds} from "./GlobalVariables";
 
 window.onload = () => {
-    let size: number = 50;
+    let size: number = 30;
 
     let field = new Field(size);
     field.randomize();
@@ -19,15 +20,29 @@ window.onload = () => {
     game.field.deleteObjectByCoordinates(startPoint);
     game.field.deleteObjectByCoordinates(endPoint);
 
-    let enemy = new Enemy(startPoint, field);
     let player = new Player(endPoint, field);
-    game.field.gameObjects.add(enemy);
     game.field.gameObjects.add(player);
-    enemy.follow(player);
 
     let controlManager = new ControlManager(player);
 
     window.onkeydown = (e: KeyboardEvent) => {
         controlManager.cacthKey(e);
     };
+    let skip = 0;
+    let curr = 0;
+    let max = 1;
+    let creator = setInterval(() => {
+        if (curr < max) {
+            let enemy = new Enemy(startPoint, field);
+            game.field.gameObjects.add(enemy);
+            enemy.follow(player);
+            curr++;
+        } else {
+            if (skip > max) {
+                curr = 0;
+                max++;
+            }
+            skip++;
+        }
+    }, TickInMiliseconds * 10);
 };

@@ -7,6 +7,7 @@ class Player implements GameObject {
     public coordinates: MapCoordinates;
     protected field: Field;
     public color: string = "green";
+    public isImpenetrable: boolean = true;
 
     constructor(coords: MapCoordinates, field: Field) {
         this.coordinates = coords;
@@ -48,16 +49,11 @@ class Player implements GameObject {
                 throw "direction not parsed";
         }
 
-        console.log("x " + supposedCoordinates.x + ",y " + supposedCoordinates.y);
-        if (!this.isExisOnTheField(supposedCoordinates)) {
-            console.log("not exist");
+        if (!this.isExisOnTheField(supposedCoordinates))
             return;
-        }
 
-        if (this.field.getObjectByCoordinates(supposedCoordinates) != null) {
-            console.log("exist some object");
+        if (this.field.getObjectByCoordinates(supposedCoordinates) != null)
             return;
-        }
 
         this.field.gameObjects.move(this.coordinates, supposedCoordinates);
         this.coordinates = supposedCoordinates;

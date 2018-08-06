@@ -1,1 +1,1 @@
-{"version":3,"file":"Track.js","sourceRoot":"","sources":["../../../../src/scripts/GameObjects/Track.ts"],"names":[],"mappings":"AAGA;IAII,YAAY,MAAsB;QAF3B,UAAK,GAAW,YAAY,CAAC;QAGhC,IAAI,CAAC,WAAW,GAAG,MAAM,CAAC;IAC9B,CAAC;CACJ;AAED,eAAe,KAAK,CAAC"}
+{"version":3,"file":"Track.js","sourceRoot":"","sources":["../../../../src/scripts/GameObjects/Track.ts"],"names":[],"mappings":"AAGA;IAKI,YAAY,MAAsB;QAH3B,UAAK,GAAW,YAAY,CAAC;QAC7B,mBAAc,GAAY,IAAI,CAAC;QAGlC,IAAI,CAAC,WAAW,GAAG,MAAM,CAAC;IAC9B,CAAC;CACJ;AAED,eAAe,KAAK,CAAC"}

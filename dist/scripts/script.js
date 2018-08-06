@@ -367,24 +367,18 @@ class ControlManager {
     }
     cacthKey(event) {
         if (!this.isDisabled) {
+            this.disableTemproary();
             switch (event.code) {
                 case "ArrowLeft":
-                    this.disableTemproary();
-                    console.log("left");
                     this.player.moveLeft();
                     break;
                 case "ArrowRight":
-                    this.disableTemproary();
-                    console.log("right");
                     this.player.moveRight();
                     break;
                 case "ArrowDown":
-                    this.disableTemproary();
                     this.player.moveBottom();
                     break;
                 case "ArrowUp":
-                    this.disableTemproary();
-                    console.log("up");
                     this.player.moveUp();
                     break;
             }
@@ -465,8 +459,8 @@ class MapCoordinates {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PathNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PathNode */ "./src/scripts/Engine/PathNode.ts");
 /* harmony import */ var _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
-/* harmony import */ var _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../GameObjects/Box */ "./src/scripts/GameObjects/Box.ts");
-/* harmony import */ var _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DataStructure/ArrayBinaryTree/ArrayBinaryTree */ "./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTree.ts");
+/* harmony import */ var _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DataStructure/ArrayBinaryTree/ArrayBinaryTree */ "./src/scripts/DataStructure/ArrayBinaryTree/ArrayBinaryTree.ts");
+/* harmony import */ var _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../GameObjects/Enemy */ "./src/scripts/GameObjects/Enemy.ts");
 
 
 
@@ -478,23 +472,21 @@ class PathFinder {
     getCheckedNodes() {
         return this.checkedNodes;
     }
-    findPath(from, to) {
+    findPath(from, to, isIgnoreEnemy = true) {
         let startNode = new _PathNode__WEBPACK_IMPORTED_MODULE_0__["default"](from, 0, null, to);
-        this.nodesToCheck = new _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_3__["default"](startNode, (node1) => {
+        this.nodesToCheck = new _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_2__["default"](startNode, (node1) => {
             return node1.getFullPath();
         });
-        this.checkedNodes = new _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_3__["default"](null, (node1) => {
+        this.checkedNodes = new _DataStructure_ArrayBinaryTree_ArrayBinaryTree__WEBPACK_IMPORTED_MODULE_2__["default"](null, (node1) => {
             return node1.getHeuristicDistanceToGoal();
         });
         while (!this.nodesToCheck.isEmpty()) {
             let currentNode = this.nodesToCheck.minimum().getValue()[0];
-            if (currentNode.getCoordinates().toString() == to.toString()) {
-                console.log("path find");
+            if (currentNode.getCoordinates().toString() == to.toString())
                 return this.getResultPath(currentNode);
-            }
             this.nodesToCheck.removeNodeElement(currentNode);
             this.checkedNodes.add(currentNode);
-            for (let neighbourNode of this.getNeighbors(currentNode, to)) {
+            for (let neighbourNode of this.getNeighbors(currentNode, to, isIgnoreEnemy)) {
                 if (this.checkedNodes.searchItem(neighbourNode, (value) => {
                     return value.getCoordinates().toString() == neighbourNode.getCoordinates().toString();
                 })) {
@@ -514,9 +506,10 @@ class PathFinder {
                 }
             }
         }
+        console.log("not found");
         return null;
     }
-    getNeighbors(node, to) {
+    getNeighbors(node, to, isIgnoreEnemy) {
         let pathNodesCoordinates = [];
         let nodeCoordinates = node.getCoordinates();
         pathNodesCoordinates.push(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](nodeCoordinates.x, nodeCoordinates.y + 1));
@@ -531,8 +524,13 @@ class PathFinder {
             if (coords.y < 0 || coords.y >= this.field.size) {
                 continue;
             }
-            if (this.field.getObjectByCoordinates(coords) instanceof _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"])
-                continue;
+            let objInCoords = this.field.getObjectByCoordinates(coords);
+            if (objInCoords != null) {
+                if (isIgnoreEnemy && !objInCoords.isImpenetrable)
+                    continue;
+                if (!isIgnoreEnemy && (!objInCoords.isImpenetrable || objInCoords instanceof _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_3__["default"]))
+                    continue;
+            }
             pathNodes.push(new _PathNode__WEBPACK_IMPORTED_MODULE_0__["default"](coords, node.getDistanceFromStart() + 1, node, to));
         }
         return pathNodes;
@@ -619,6 +617,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Engine/MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
 /* harmony import */ var _Engine_ControlManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/ControlManager */ "./src/scripts/Engine/ControlManager.ts");
 /* harmony import */ var _GameObjects_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameObjects/Player */ "./src/scripts/GameObjects/Player.ts");
+/* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GlobalVariables */ "./src/scripts/GlobalVariables.ts");
+
 
 
 
@@ -626,7 +626,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.onload = () => {
-    let size = 50;
+    let size = 30;
     let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](size);
     field.randomize();
     let game = new _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"](field);
@@ -635,15 +635,30 @@ window.onload = () => {
     let endPoint = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_3__["default"](size - 1, size - 1);
     game.field.deleteObjectByCoordinates(startPoint);
     game.field.deleteObjectByCoordinates(endPoint);
-    let enemy = new _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"](startPoint, field);
     let player = new _GameObjects_Player__WEBPACK_IMPORTED_MODULE_5__["default"](endPoint, field);
-    game.field.gameObjects.add(enemy);
     game.field.gameObjects.add(player);
-    enemy.follow(player);
     let controlManager = new _Engine_ControlManager__WEBPACK_IMPORTED_MODULE_4__["default"](player);
     window.onkeydown = (e) => {
         controlManager.cacthKey(e);
     };
+    let skip = 0;
+    let curr = 0;
+    let max = 1;
+    let creator = setInterval(() => {
+        if (curr < max) {
+            let enemy = new _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"](startPoint, field);
+            game.field.gameObjects.add(enemy);
+            enemy.follow(player);
+            curr++;
+        }
+        else {
+            if (skip > max) {
+                curr = 0;
+                max++;
+            }
+            skip++;
+        }
+    }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_6__["TickInMiliseconds"] * 10);
 };
 
 
@@ -777,10 +792,32 @@ __webpack_require__.r(__webpack_exports__);
 class Box {
     constructor(coordinates) {
         this.color = "black";
+        this.isImpenetrable = false;
         this.coordinates = coordinates;
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Box);
+
+
+/***/ }),
+
+/***/ "./src/scripts/GameObjects/DeadMan.ts":
+/*!********************************************!*\
+  !*** ./src/scripts/GameObjects/DeadMan.ts ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class DeadMan {
+    constructor(coords) {
+        this.color = "blueviolet";
+        this.isImpenetrable = false;
+        this.coordinates = coords;
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (DeadMan);
 
 
 /***/ }),
@@ -796,32 +833,42 @@ class Box {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Engine/PathFinder */ "./src/scripts/Engine/PathFinder.ts");
 /* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../GlobalVariables */ "./src/scripts/GlobalVariables.ts");
+/* harmony import */ var _DeadMan__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeadMan */ "./src/scripts/GameObjects/DeadMan.ts");
+
 
 
 class Enemy {
     constructor(coordinates, field) {
+        this.isImpenetrable = true;
         this.color = "red";
         this.coordinates = coordinates;
         this.pathFinder = new _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__["default"](field);
         this.field = field;
     }
-    calculatePath(toCoordinates) {
+    calculatePath(toCoordinates, isIgnoreEnemy = true) {
         this.currentStep = 0;
-        this.path = this.pathFinder.findPath(this.coordinates, toCoordinates);
+        this.path = this.pathFinder.findPath(this.coordinates, toCoordinates, isIgnoreEnemy);
         if (this.path == null) {
             throw "end game";
         }
     }
     step() {
+        let nextStepCoords = this.path[this.currentStep + 1];
+        let nextObject = this.field.getObjectByCoordinates(this.path[this.currentStep + 1]);
+        if (nextObject instanceof Enemy || nextObject instanceof _DeadMan__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+            console.log("there is enemy");
+            return false;
+        }
         if (this.currentStep == this.path.length - 2) {
-            console.log("end");
             clearInterval(this.interval);
+            this.death();
+            console.log("dead");
             return;
         }
-        let nextStepCoords = this.path[this.currentStep + 1];
         this.field.gameObjects.move(this.coordinates, nextStepCoords);
         this.coordinates = nextStepCoords;
         this.currentStep++;
+        return true;
     }
     goTo(coords) {
         this.calculatePath(coords);
@@ -832,16 +879,23 @@ class Enemy {
         let oldCoordinates = obj.coordinates;
         this.interval = setInterval(() => {
             if (obj.coordinates.toString() != oldCoordinates.toString()) {
-                console.log("coordinates changed");
                 oldCoordinates = obj.coordinates;
                 this.calculatePath(obj.coordinates);
             }
-            this.step();
+            if (!this.step()) {
+                this.calculatePath(obj.coordinates, false);
+            }
         }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__["TickInMiliseconds"]);
     }
     everyInterval() {
         console.log("moved");
         this.step();
+    }
+    death() {
+        let deathCoords = this.coordinates;
+        this.field.gameObjects.removeByCoordinates(this.coordinates);
+        let body = new _DeadMan__WEBPACK_IMPORTED_MODULE_2__["default"](deathCoords);
+        this.field.gameObjects.add(body);
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Enemy);
@@ -863,6 +917,7 @@ __webpack_require__.r(__webpack_exports__);
 class Player {
     constructor(coords, field) {
         this.color = "green";
+        this.isImpenetrable = true;
         this.coordinates = coords;
         this.field = field;
     }
@@ -896,15 +951,10 @@ class Player {
             default:
                 throw "direction not parsed";
         }
-        console.log("x " + supposedCoordinates.x + ",y " + supposedCoordinates.y);
-        if (!this.isExisOnTheField(supposedCoordinates)) {
-            console.log("not exist");
+        if (!this.isExisOnTheField(supposedCoordinates))
             return;
-        }
-        if (this.field.getObjectByCoordinates(supposedCoordinates) != null) {
-            console.log("exist some object");
+        if (this.field.getObjectByCoordinates(supposedCoordinates) != null)
             return;
-        }
         this.field.gameObjects.move(this.coordinates, supposedCoordinates);
         this.coordinates = supposedCoordinates;
     }
