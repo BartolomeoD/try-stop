@@ -38,7 +38,7 @@ class ControlManager {
         this.isDisabled = true;
         setTimeout(() => {
             this.isDisabled = false;
-        },TickInMiliseconds);
+        },TickInMiliseconds * 0.3);
     }
 }
 

@@ -391,7 +391,7 @@ class ControlManager {
         this.isDisabled = true;
         setTimeout(() => {
             this.isDisabled = false;
-        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_0__["TickInMiliseconds"]);
+        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_0__["TickInMiliseconds"] * 0.3);
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (ControlManager);
