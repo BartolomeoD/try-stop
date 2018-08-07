@@ -6,7 +6,7 @@ import ControlManager from "./Engine/ControlManager";
 import Player from "./GameObjects/Player";
 import { TickInMiliseconds } from "./GlobalVariables";
 window.onload = () => {
-    let size = 30;
+    let size = 50;
     let field = new Field(size);
     field.randomize();
     let game = new Game(field);

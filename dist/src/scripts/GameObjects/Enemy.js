@@ -49,7 +49,7 @@ class Enemy {
             if (!this.step()) {
                 this.calculatePath(obj.coordinates, false);
             }
-        }, TickInMiliseconds);
+        }, TickInMiliseconds * 1.5);
     }
     everyInterval() {
         console.log("moved");

@@ -626,7 +626,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.onload = () => {
-    let size = 30;
+    let size = 50;
     let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](size);
     field.randomize();
     let game = new _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"](field);
@@ -885,7 +885,7 @@ class Enemy {
             if (!this.step()) {
                 this.calculatePath(obj.coordinates, false);
             }
-        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__["TickInMiliseconds"]);
+        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__["TickInMiliseconds"] * 1.5);
     }
     everyInterval() {
         console.log("moved");
@@ -978,7 +978,7 @@ class Player {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TickInMiliseconds", function() { return TickInMiliseconds; });
-const TickInMiliseconds = 100;
+const TickInMiliseconds = 70;
 
 
 /***/ }),

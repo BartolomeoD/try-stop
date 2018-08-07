@@ -31,9 +31,8 @@ class Enemy implements GameObject {
 
     public step() {
         let nextStepCoords = this.path[this.currentStep + 1];
-        let nextObject =this.field.getObjectByCoordinates(this.path[this.currentStep + 1]);
-        if (nextObject instanceof Enemy || nextObject instanceof DeadMan)
-        {
+        let nextObject = this.field.getObjectByCoordinates(this.path[this.currentStep + 1]);
+        if (nextObject instanceof Enemy || nextObject instanceof DeadMan) {
             console.log("there is enemy");
             return false;
         }
@@ -65,7 +64,7 @@ class Enemy implements GameObject {
             if (!this.step()) {
                 this.calculatePath(obj.coordinates, false);
             }
-        }, TickInMiliseconds)
+        }, TickInMiliseconds * 1.5);
     }
 
     private everyInterval() {

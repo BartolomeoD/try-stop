@@ -7,7 +7,7 @@ import Player from "./GameObjects/Player";
 import {TickInMiliseconds} from "./GlobalVariables";
 
 window.onload = () => {
-    let size: number = 30;
+    let size: number = 50;
 
     let field = new Field(size);
     field.randomize();
