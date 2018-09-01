@@ -1,30 +1,17 @@
-import MapCoordinates from "../Engine/MapCoordinates";
 import PathFinder from "../Engine/PathFinder";
-import Field from "../Environment/Field";
-import GameObject from "./GameObject";
-import {TickInMiliseconds} from "../GlobalVariables";
+import { TickInMiliseconds } from "../GlobalVariables";
 import DeadMan from "./DeadMan";
 import Game from "../Engine/Game";
-
-class Enemy implements GameObject {
-    public isImpenetrable: boolean = true;
-    public coordinates: MapCoordinates;
-    public color: string = "red";
-    private path: MapCoordinates[];
-    private pathFinder: PathFinder;
-    private currentStep: number;
-    private field: Field;
-    private interval: number;
-    public guid:number;
-
-    constructor(coordinates: MapCoordinates, field: Field) {
+class Enemy {
+    constructor(coordinates, field) {
+        this.isImpenetrable = true;
+        this.color = "red";
         this.coordinates = coordinates;
         this.pathFinder = new PathFinder(field);
         this.field = field;
-        this.guid = Math.floor(Math.random()* 1000);
+        this.guid = Math.floor(Math.random() * 1000);
     }
-
-    public calculatePath(toCoordinates: MapCoordinates, isIgnoreEnemy: boolean = true) {
+    calculatePath(toCoordinates, isIgnoreEnemy = true) {
         this.currentStep = 0;
         this.path = this.pathFinder.findPath(this.coordinates, toCoordinates, isIgnoreEnemy);
         let game = Game.Instance;
@@ -32,8 +19,7 @@ class Enemy implements GameObject {
             Game.Instance.endGame();
         }
     }
-
-    public step() {
+    step() {
         if (this.path == null) {
             clearInterval(this.interval);
             return;
@@ -55,13 +41,11 @@ class Enemy implements GameObject {
         this.currentStep++;
         return true;
     }
-
-    public goTo(coords: MapCoordinates) {
+    goTo(coords) {
         this.calculatePath(coords);
         this.interval = setInterval(this.everyInterval.bind(this), TickInMiliseconds);
     }
-
-    public follow(obj: GameObject) {
+    follow(obj) {
         this.calculatePath(obj.coordinates);
         let oldCoordinates = obj.coordinates;
         this.interval = setInterval(() => {
@@ -74,23 +58,20 @@ class Enemy implements GameObject {
             }
         }, TickInMiliseconds * 1.5);
     }
-
-    public kill() {
+    kill() {
         clearInterval(this.interval);
         Game.Instance.field.deleteObjectByCoordinates(this.coordinates);
     }
-
-    private everyInterval() {
+    everyInterval() {
         console.log("moved");
         this.step();
     }
-
-    private death() {
+    death() {
         let deathCoords = this.coordinates;
         this.field.gameObjects.removeByCoordinates(this.coordinates);
         let body = new DeadMan(deathCoords);
         this.field.gameObjects.add(body);
     }
 }
-
 export default Enemy;
+//# sourceMappingURL=Enemy.js.map

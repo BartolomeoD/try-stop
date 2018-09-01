@@ -408,16 +408,73 @@ class ControlManager {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../GlobalVariables */ "./src/scripts/GlobalVariables.ts");
+/* harmony import */ var _ControlManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ControlManager */ "./src/scripts/Engine/ControlManager.ts");
+/* harmony import */ var _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../GameObjects/Enemy */ "./src/scripts/GameObjects/Enemy.ts");
+/* harmony import */ var _GameObjects_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../GameObjects/Player */ "./src/scripts/GameObjects/Player.ts");
+/* harmony import */ var _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
+
+
+
+
+
 class Game {
-    constructor(field) {
-        this.field = field;
+    constructor() {
+        this.active = false;
+    }
+    static get Instance() {
+        return this._instance || (this._instance = new this());
     }
     start() {
+        this.active = true;
         this.field.render();
+        this.field.randomize();
+        let startPoint = new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](0, 0);
+        let endPoint = new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](this.field.size - 1, this.field.size - 1);
+        for (let i = 0; i < this.field.size; i++) {
+            this.field.deleteObjectByCoordinates(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](i, 0));
+            this.field.deleteObjectByCoordinates(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](i, this.field.size - 1));
+            this.field.deleteObjectByCoordinates(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](this.field.size - 1, i));
+            this.field.deleteObjectByCoordinates(new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](0, i));
+        }
+        let player = new _GameObjects_Player__WEBPACK_IMPORTED_MODULE_3__["default"](endPoint, this.field);
+        this.field.gameObjects.add(player);
+        let controlManager = new _ControlManager__WEBPACK_IMPORTED_MODULE_1__["default"](player);
+        window.onkeydown = (e) => {
+            controlManager.cacthKey(e);
+        };
+        let skip = 0;
+        let curr = 0;
+        let max = 1;
+        this.enemyCreator = setInterval(() => {
+            if (curr < max) {
+                let enemy = new _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"](startPoint, this.field);
+                this.field.gameObjects.add(enemy);
+                enemy.follow(player);
+                curr++;
+            }
+            else {
+                if (skip > max) {
+                    curr = 0;
+                    max++;
+                }
+                skip++;
+            }
+        }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_0__["TickInMiliseconds"] * 10);
         setInterval(this.update.bind(this), 16);
     }
     update() {
         this.field.render();
+    }
+    endGame() {
+        this.active = false;
+        clearInterval(this.enemyCreator);
+        for (let object of this.field.gameObjects.toArray()) {
+            if (object instanceof _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+                object.kill();
+            }
+        }
+        this.endGameCallback();
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Game);
@@ -613,52 +670,18 @@ class PathNode {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Environment_Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Environment/Field */ "./src/scripts/Environment/Field.ts");
 /* harmony import */ var _Engine_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Engine/Game */ "./src/scripts/Engine/Game.ts");
-/* harmony import */ var _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameObjects/Enemy */ "./src/scripts/GameObjects/Enemy.ts");
-/* harmony import */ var _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Engine/MapCoordinates */ "./src/scripts/Engine/MapCoordinates.ts");
-/* harmony import */ var _Engine_ControlManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/ControlManager */ "./src/scripts/Engine/ControlManager.ts");
-/* harmony import */ var _GameObjects_Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GameObjects/Player */ "./src/scripts/GameObjects/Player.ts");
-/* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GlobalVariables */ "./src/scripts/GlobalVariables.ts");
-
-
-
-
+/* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GlobalVariables */ "./src/scripts/GlobalVariables.ts");
 
 
 
 window.onload = () => {
-    let size = 50;
-    let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](size);
-    field.randomize();
-    let game = new _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"](field);
-    game.start();
-    let startPoint = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_3__["default"](0, 0);
-    let endPoint = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_3__["default"](size - 1, size - 1);
-    game.field.deleteObjectByCoordinates(startPoint);
-    game.field.deleteObjectByCoordinates(endPoint);
-    let player = new _GameObjects_Player__WEBPACK_IMPORTED_MODULE_5__["default"](endPoint, field);
-    game.field.gameObjects.add(player);
-    let controlManager = new _Engine_ControlManager__WEBPACK_IMPORTED_MODULE_4__["default"](player);
-    window.onkeydown = (e) => {
-        controlManager.cacthKey(e);
+    let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](_GlobalVariables__WEBPACK_IMPORTED_MODULE_2__["FieldSize"]);
+    let game = _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"].Instance;
+    game.field = field;
+    game.endGameCallback = () => {
+        alert("game ended");
     };
-    let skip = 0;
-    let curr = 0;
-    let max = 1;
-    let creator = setInterval(() => {
-        if (curr < max) {
-            let enemy = new _GameObjects_Enemy__WEBPACK_IMPORTED_MODULE_2__["default"](startPoint, field);
-            game.field.gameObjects.add(enemy);
-            enemy.follow(player);
-            curr++;
-        }
-        else {
-            if (skip > max) {
-                curr = 0;
-                max++;
-            }
-            skip++;
-        }
-    }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_6__["TickInMiliseconds"] * 10);
+    game.start();
 };
 
 
@@ -834,6 +857,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Engine/PathFinder */ "./src/scripts/Engine/PathFinder.ts");
 /* harmony import */ var _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../GlobalVariables */ "./src/scripts/GlobalVariables.ts");
 /* harmony import */ var _DeadMan__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeadMan */ "./src/scripts/GameObjects/DeadMan.ts");
+/* harmony import */ var _Engine_Game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Engine/Game */ "./src/scripts/Engine/Game.ts");
+
 
 
 
@@ -844,15 +869,21 @@ class Enemy {
         this.coordinates = coordinates;
         this.pathFinder = new _Engine_PathFinder__WEBPACK_IMPORTED_MODULE_0__["default"](field);
         this.field = field;
+        this.guid = Math.floor(Math.random() * 1000);
     }
     calculatePath(toCoordinates, isIgnoreEnemy = true) {
         this.currentStep = 0;
         this.path = this.pathFinder.findPath(this.coordinates, toCoordinates, isIgnoreEnemy);
-        if (this.path == null) {
-            throw "end game";
+        let game = _Engine_Game__WEBPACK_IMPORTED_MODULE_3__["default"].Instance;
+        if (this.path == null && game.active) {
+            _Engine_Game__WEBPACK_IMPORTED_MODULE_3__["default"].Instance.endGame();
         }
     }
     step() {
+        if (this.path == null) {
+            clearInterval(this.interval);
+            return;
+        }
         let nextStepCoords = this.path[this.currentStep + 1];
         let nextObject = this.field.getObjectByCoordinates(this.path[this.currentStep + 1]);
         if (nextObject instanceof Enemy || nextObject instanceof _DeadMan__WEBPACK_IMPORTED_MODULE_2__["default"]) {
@@ -886,6 +917,10 @@ class Enemy {
                 this.calculatePath(obj.coordinates, false);
             }
         }, _GlobalVariables__WEBPACK_IMPORTED_MODULE_1__["TickInMiliseconds"] * 1.5);
+    }
+    kill() {
+        clearInterval(this.interval);
+        _Engine_Game__WEBPACK_IMPORTED_MODULE_3__["default"].Instance.field.deleteObjectByCoordinates(this.coordinates);
     }
     everyInterval() {
         console.log("moved");
@@ -972,13 +1007,15 @@ class Player {
 /*!****************************************!*\
   !*** ./src/scripts/GlobalVariables.ts ***!
   \****************************************/
-/*! exports provided: TickInMiliseconds */
+/*! exports provided: TickInMiliseconds, FieldSize */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TickInMiliseconds", function() { return TickInMiliseconds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FieldSize", function() { return FieldSize; });
 const TickInMiliseconds = 70;
+const FieldSize = 50;
 
 
 /***/ }),
