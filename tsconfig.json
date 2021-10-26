@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outFile": "./dist/script.js",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "es6",
     "target": "es6",
-    "jsx": "react",
+    "module": "amd",
     "allowJs": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "inlineSources": true,
   }
 }

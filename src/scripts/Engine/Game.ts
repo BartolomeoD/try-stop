@@ -22,7 +22,8 @@ class Game {
     public start() {
         this.active = true;
         this.field.render();
-        this.field.randomize();
+        this.field.makeBoxForPlayer();
+        // this.field.randomize();
 
         let startPoint = new MapCoordinates(0, 0);
         let endPoint = new MapCoordinates(this.field.size - 1, this.field.size - 1);

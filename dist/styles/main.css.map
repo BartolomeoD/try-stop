@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/styles/src/styles/main.scss"],"names":[],"mappings":"AAAA,OACI,YACA,YAAa,CAGjB,QACI,aACA,mBACA,sBAAuB","file":"./styles/main.css","sourcesContent":[".field {\r\n    width: 600px;\r\n    height: 600px;\r\n}\r\n\r\n.center {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}"],"sourceRoot":""}

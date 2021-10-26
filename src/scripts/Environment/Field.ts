@@ -73,6 +73,19 @@ class Field {
         }
     }
 
+    public makeBoxForPlayer() {
+
+        for (let x = 0; x < this.size / 2; x++) {
+            var coords = new MapCoordinates(x, this.size / 2);
+            this.gameObjects.add((new Box(coords)));
+        }
+        
+        for (let y = 0; y < this.size / 2; y++) {
+            var coords = new MapCoordinates(this.size / 2, y);
+            this.gameObjects.add((new Box(coords)));
+        }
+    }
+
     // public showNodes(nodes: PathNode[]) {
     //     for (let node of nodes) {
     //         this.cells[node.getCoordinates().y][node.getCoordinates().x] = 3;

@@ -428,7 +428,8 @@ class Game {
     start() {
         this.active = true;
         this.field.render();
-        this.field.randomize();
+        this.field.makeBoxForPlayer();
+        // this.field.randomize();
         let startPoint = new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](0, 0);
         let endPoint = new _MapCoordinates__WEBPACK_IMPORTED_MODULE_4__["default"](this.field.size - 1, this.field.size - 1);
         for (let i = 0; i < this.field.size; i++) {
@@ -674,15 +675,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-window.onload = () => {
-    let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](_GlobalVariables__WEBPACK_IMPORTED_MODULE_2__["FieldSize"]);
-    let game = _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"].Instance;
-    game.field = field;
-    game.endGameCallback = () => {
-        alert("game ended");
-    };
-    game.start();
+let field = new _Environment_Field__WEBPACK_IMPORTED_MODULE_0__["default"](_GlobalVariables__WEBPACK_IMPORTED_MODULE_2__["FieldSize"]);
+let game = _Engine_Game__WEBPACK_IMPORTED_MODULE_1__["default"].Instance;
+game.field = field;
+game.endGameCallback = () => {
+    alert("game ended");
 };
+game.start();
 
 
 /***/ }),
@@ -756,6 +755,16 @@ class Field {
                     this.gameObjects.add((new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](coords)));
                 }
             }
+        }
+    }
+    makeBoxForPlayer() {
+        for (let x = 0; x < this.size / 2; x++) {
+            var coords = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](x, this.size / 2);
+            this.gameObjects.add((new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](coords)));
+        }
+        for (let y = 0; y < this.size / 2; y++) {
+            var coords = new _Engine_MapCoordinates__WEBPACK_IMPORTED_MODULE_1__["default"](this.size / 2, y);
+            this.gameObjects.add((new _GameObjects_Box__WEBPACK_IMPORTED_MODULE_2__["default"](coords)));
         }
     }
 }
@@ -1014,7 +1023,7 @@ class Player {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TickInMiliseconds", function() { return TickInMiliseconds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FieldSize", function() { return FieldSize; });
-const TickInMiliseconds = 70;
+const TickInMiliseconds = 100;
 const FieldSize = 50;
 
 
@@ -1039,26 +1048,14 @@ class Random {
 
 /***/ }),
 
-/***/ "./src/styles/main.scss":
-/*!******************************!*\
-  !*** ./src/styles/main.scss ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!****************************************************************!*\
-  !*** multi ./src/scripts/EntryPoint.ts ./src/styles/main.scss ***!
-  \****************************************************************/
+/*!*****************************************!*\
+  !*** multi ./src/scripts/EntryPoint.ts ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./src/scripts/EntryPoint.ts */"./src/scripts/EntryPoint.ts");
-module.exports = __webpack_require__(/*! ./src/styles/main.scss */"./src/styles/main.scss");
+module.exports = __webpack_require__(/*! ./src/scripts/EntryPoint.ts */"./src/scripts/EntryPoint.ts");
 
 
 /***/ })

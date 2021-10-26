@@ -1,2 +1,2 @@
-export const TickInMiliseconds = 70;
+export const TickInMiliseconds = 100;
 export const FieldSize = 50;
